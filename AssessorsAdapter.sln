@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssessorsAdapterTest", "AssessorsAdapterTest\AssessorsAdapterTest.csproj", "{14DD1E4B-0A66-446E-B1EA-B1D113DDD99B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssessorsAdapter", "AssessorsAdapter\AssessorsAdapter.csproj", "{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14DD1E4B-0A66-446E-B1EA-B1D113DDD99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14DD1E4B-0A66-446E-B1EA-B1D113DDD99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14DD1E4B-0A66-446E-B1EA-B1D113DDD99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14DD1E4B-0A66-446E-B1EA-B1D113DDD99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
