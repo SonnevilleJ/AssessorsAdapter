@@ -7,6 +7,9 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class HouseTest
     {
+        private static readonly House TestHouse = new House(Address);
+        private static readonly House AndysHouse = new House(AndysAddress);
+
         private const string Address = "6324 Wilcot Ct";
         private const string City = "Johnston";
         private const int Zip = 50131;
@@ -18,43 +21,37 @@ namespace AssessorsAdapterTest
         [TestMethod]
         public void HouseConstructor()
         {
-            var house = new House(Address, City);
-            Assert.IsNotNull(house);
+            Assert.IsNotNull(TestHouse);
         }
 
         [TestMethod]
         public void AddressMatches()
         {
-            var house = new House(Address);
-            VerifyAddressMatches(Address, house);
+            VerifyAddressMatches(Address, TestHouse);
         }
 
         [TestMethod]
         public void CityMatches()
         {
-            var house = new House(Address);
-            VerifyCityMatches(City, house);
+            VerifyCityMatches(City, TestHouse);
         }
 
         [TestMethod]
         public void ZipMatches()
         {
-            var house = new House(Address);
-            VerifyZipMatches(Zip, house);
+            VerifyZipMatches(Zip, TestHouse);
         }
 
         [TestMethod]
         public void AssessmentMatches()
         {
-            var house = new House(Address);
-            VerifyAssessmentMatches(Assessment, house);
+            VerifyAssessmentMatches(Assessment, TestHouse);
         }
 
         [TestMethod]
         public void LandMatches()
         {
-            var house = new House(Address);
-            VerifyLandMatches(Land, house);
+            VerifyLandMatches(Land, TestHouse);
         }
 
         #region Verify methods
@@ -94,22 +91,19 @@ namespace AssessorsAdapterTest
         [TestMethod]
         public void AndysAddressMatches()
         {
-            var house = new House(AndysAddress);
-            VerifyAddressMatches(AndysAddress, house);
+            VerifyAddressMatches(AndysAddress, AndysHouse);
         }
 
         [TestMethod]
         public void AndysCityMatches()
         {
-            var house = new House(AndysAddress);
-            VerifyCityMatches("Polk City", house);
+            VerifyCityMatches("Polk City", AndysHouse);
         }
 
         [TestMethod]
         public void AndysZipMatches()
         {
-            var house = new House(AndysAddress);
-            VerifyZipMatches(50226, house);
+            VerifyZipMatches(50226, AndysHouse);
         }
     }
 }
