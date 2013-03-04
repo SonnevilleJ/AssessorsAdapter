@@ -1,4 +1,5 @@
-﻿using AssessorsAdapter;
+﻿using System.Globalization;
+using AssessorsAdapter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssessorsAdapterTest
@@ -8,7 +9,9 @@ namespace AssessorsAdapterTest
     {
         private const string Address = "6324 Wilcot Ct";
         private const string City = "Johnston";
-        private const int ExpectedAssessment = 291600;
+        private const int Zip = 50131;
+        private const int Assessment = 291600;
+        private const int Land = 13740;
 
         private const string AndysAddress = "9260 NW 36th St";
 
@@ -37,29 +40,38 @@ namespace AssessorsAdapterTest
         public void ZipMatches()
         {
             var house = new House(Address);
-            VerifyZipMatches(50131, house);
+            VerifyZipMatches(Zip, house);
         }
 
         [TestMethod]
         public void AssessmentMatches()
         {
             var house = new House(Address);
-            VerifyAssessmentMatches(ExpectedAssessment, house);
+            VerifyAssessmentMatches(Assessment, house);
         }
+
+        [TestMethod]
+        public void LandMatches()
+        {
+            var house = new House(Address);
+            VerifyLandMatches(Land, house);
+        }
+
+        #region Verify methods
 
         private static void VerifyAddressMatches(string address, House house)
         {
             Assert.AreEqual(address, house.Address, true);
         }
 
-        private void VerifyCityMatches(string city, House house)
+        private static void VerifyCityMatches(string city, House house)
         {
             Assert.AreEqual(city, house.City, true);
         }
 
-        private void VerifyZipMatches(int zip, House house)
+        private static void VerifyZipMatches(int zip, House house)
         {
-            VerifyZipMatches(zip.ToString(), house);
+            VerifyZipMatches(zip.ToString(CultureInfo.InvariantCulture), house);
         }
 
         private static void VerifyZipMatches(string zip, House house)
@@ -67,10 +79,17 @@ namespace AssessorsAdapterTest
             Assert.AreEqual(zip, house.Zip);
         }
 
-        private void VerifyAssessmentMatches(int assessment, House house)
+        private static void VerifyAssessmentMatches(int assessment, House house)
         {
             Assert.AreEqual(assessment, house.AssessmentTotal);
         }
+
+        private static void VerifyLandMatches(int land, House house)
+        {
+            Assert.AreEqual(land, house.Land);
+        }
+
+        #endregion
 
         [TestMethod]
         public void AndysAddressMatches()

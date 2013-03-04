@@ -32,6 +32,8 @@ namespace AssessorsAdapter
 
         public int AssessmentTotal { get; private set; }
 
+        public int Land { get; private set; }
+
         private static bool NoResultsFound(HtmlDocument doc)
         {
             return doc.DocumentNode.InnerText.Contains("0 Records");
@@ -41,6 +43,7 @@ namespace AssessorsAdapter
         {
             ParseAddress(document);
             ParseAssessment(document);
+            ParseLand(document);
         }
 
         private void ParseAddress(HtmlDocument document)
@@ -66,7 +69,21 @@ namespace AssessorsAdapter
             var assessmentTrNode = assessmentNode.ParentNode.ParentNode;
             var assessmentTds = assessmentTrNode.NextSibling.SelectNodes("td");
 
-            AssessmentTotal = int.Parse(assessmentTds.Last().InnerText.Replace(",", ""));
+            AssessmentTotal = FormatInt(assessmentTds.Last().InnerText);
+        }
+
+        private void ParseLand(HtmlDocument document)
+        {
+            var landNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Land");
+            var landTrNode = landNode.ParentNode.ParentNode.ParentNode;
+            var landTds = landTrNode.NextSibling.SelectNodes("td");
+
+            Land = FormatInt(landTds[1].InnerText);
+        }
+
+        private static int FormatInt(string innerText)
+        {
+            return int.Parse(innerText.Replace(",", ""));
         }
 
         private static string RemoveDuplicateSpaces(string addressString)
