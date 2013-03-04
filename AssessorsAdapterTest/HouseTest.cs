@@ -22,6 +22,12 @@ namespace AssessorsAdapterTest
         }
 
         [TestMethod]
+        public void DataAvailable()
+        {
+            Assert.IsTrue(TestHouse.DataAvailable);
+        }
+
+        [TestMethod]
         public void AddressMatches()
         {
             VerifyAddressMatches(Address, TestHouse);

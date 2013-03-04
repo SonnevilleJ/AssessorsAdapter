@@ -16,9 +16,21 @@ namespace AssessorsAdapterTest
         }
 
         [TestMethod]
+        public void NoResultsSetsDataAvailable()
+        {
+            Assert.IsFalse(NoResultsHouse.DataAvailable);
+        }
+
+        [TestMethod]
         public void MultipleResultsTest()
         {
             Assert.IsTrue(DuplicateAddresses.MultipleRecordsFound);
+        }
+
+        [TestMethod]
+        public void DuplicateAddressesDataAvailable()
+        {
+            Assert.IsFalse(DuplicateAddresses.DataAvailable);
         }
     }
 }

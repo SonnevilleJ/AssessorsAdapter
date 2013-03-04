@@ -33,7 +33,9 @@ namespace AssessorsAdapter
 
         public bool NoRecordsFound { get; private set; }
 
-        public int TSFLA { get; set; }
+        public int TSFLA { get; private set; }
+
+        public bool DataAvailable { get; private set; }
 
         #endregion
 
@@ -156,6 +158,7 @@ namespace AssessorsAdapter
 
             if (CheckNoResultsFound(doc) || CheckMoreThanOneResultFound(doc)) return;
             ParseHtml(doc);
+            DataAvailable = true;
         }
 
         #endregion
