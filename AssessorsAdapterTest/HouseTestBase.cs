@@ -36,9 +36,14 @@ namespace AssessorsAdapterTest
             Assert.AreEqual(land, house.Land);
         }
 
-        protected static void VerifyTsflaMatches(int expected, House testHouse)
+        protected static void VerifyTsflaMatches(int tsfla, House house)
         {
-            Assert.AreEqual(expected, testHouse.TSFLA);
+            Assert.AreEqual(tsfla, house.TSFLA);
+        }
+
+        protected static void VerifyBasementMatches(int bsmtArea, House house)
+        {
+            Assert.AreEqual(bsmtArea, house.BsmtArea);
         }
 
         protected static House ConstructHouse(string address)

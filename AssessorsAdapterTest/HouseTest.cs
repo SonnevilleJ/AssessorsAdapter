@@ -14,6 +14,7 @@ namespace AssessorsAdapterTest
         private const int Assessment = 291600;
         private const int Land = 13740;
         private const int Tsfla = 2266;
+        private const int bsmtArea = 1141;
 
         [TestMethod]
         public void HouseConstructor()
@@ -61,6 +62,12 @@ namespace AssessorsAdapterTest
         public void TsflaMatches()
         {
             VerifyTsflaMatches(Tsfla, TestHouse);
+        }
+
+        [TestMethod]
+        public void BasementMatches()
+        {
+            VerifyBasementMatches(bsmtArea, TestHouse);
         }
     }
 }

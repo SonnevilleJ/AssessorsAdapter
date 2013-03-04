@@ -37,6 +37,8 @@ namespace AssessorsAdapter
 
         public bool DataAvailable { get; private set; }
 
+        public int BsmtArea { get; private set; }
+
         #endregion
 
         #region Error checking
@@ -63,6 +65,7 @@ namespace AssessorsAdapter
             ParseAssessment(document);
             ParseLand(document);
             ParseTsfla(document);
+            ParseBsmtArea(document);
         }
 
         private void ParseAddress(HtmlDocument document)
@@ -109,6 +112,15 @@ namespace AssessorsAdapter
             TSFLA = FormatInt(tsfla);
         }
 
+        private void ParseBsmtArea(HtmlDocument document)
+        {
+            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == "BSMT AREA");
+            var tsflaTdNode = tsflaNode.ParentNode;
+            var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
+
+            BsmtArea = FormatInt(tsfla);
+        }
+
         #endregion
 
         #region Formatters
@@ -129,10 +141,7 @@ namespace AssessorsAdapter
                     if (lastWasSpace) continue;
                     lastWasSpace = true;
                 }
-                else
-                {
-                    lastWasSpace = false;
-                }
+                else lastWasSpace = false;
                 builder.Append(letter);
             }
             return builder.ToString().Trim();
