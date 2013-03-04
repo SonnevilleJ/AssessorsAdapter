@@ -7,8 +7,16 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class HouseTest
     {
-        private static readonly House TestHouse = new House(Address);
-        private static readonly House AndysHouse = new House(AndysAddress);
+        private static readonly House TestHouse = ConstructHouse(Address);
+
+        private static readonly House AndysHouse = ConstructHouse(AndysAddress);
+
+        private static House ConstructHouse(string address)
+        {
+            var house = new House();
+            house.FetchData(address);
+            return house;
+        }
 
         private const string Address = "6324 Wilcot Ct";
         private const string City = "Johnston";

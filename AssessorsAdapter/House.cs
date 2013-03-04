@@ -1,28 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using HtmlAgilityPack;
 
 namespace AssessorsAdapter
 {
+#if DEBUG
+    [ClassInterface(ClassInterfaceType.AutoDual)]
+#endif
     public class House
     {
         private const string QueryUrl = @"http://www.assess.co.polk.ia.us/cgi-bin/invenquery/homequery.cgi?method=GET&address={0}&photo={2}&map={3}&jurisdiction={1}";
-
-        public House(string address, string city = "COUNTY-WIDE", bool photo = true, bool map = false)
-        {
-            var url = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
-            var client = new HtmlWeb();
-            var doc = client.Load(url);
-
-            if (NoResultsFound(doc))
-            {
-                Process.Start("chrome", url);
-            }
-            ParseHtml(doc);
-            
-        }
 
         public string Address { get; private set; }
 
@@ -104,6 +94,25 @@ namespace AssessorsAdapter
                 builder.Append(letter);
             }
             return builder.ToString().Trim();
+        }
+
+        public void FetchData(string address)
+        {
+            FetchData(address, "COUNTY-WIDE", true, false);
+        }
+
+        public void FetchData(string address, string city, bool photo, bool map)
+        {
+            var url = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
+            var client = new HtmlWeb();
+            var doc = client.Load(url);
+
+            if (NoResultsFound(doc))
+            {
+                Process.Start("chrome", url);
+            }
+            ParseHtml(doc);
+
         }
     }
 }
