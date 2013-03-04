@@ -39,6 +39,8 @@ namespace AssessorsAdapter
 
         public int BsmtArea { get; private set; }
 
+        public int YearBuilt { get; private set; }
+
         #endregion
 
         #region Error checking
@@ -66,6 +68,7 @@ namespace AssessorsAdapter
             ParseLand(document);
             ParseTsfla(document);
             ParseBsmtArea(document);
+            ParseYearBuilt(document);
         }
 
         private void ParseAddress(HtmlDocument document)
@@ -119,6 +122,15 @@ namespace AssessorsAdapter
             var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
 
             BsmtArea = FormatInt(tsfla);
+        }
+
+        private void ParseYearBuilt(HtmlDocument document)
+        {
+            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == "YEAR BUILT");
+            var tsflaTdNode = tsflaNode.ParentNode;
+            var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
+
+            YearBuilt = FormatInt(tsfla);
         }
 
         #endregion

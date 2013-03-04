@@ -46,6 +46,11 @@ namespace AssessorsAdapterTest
             Assert.AreEqual(bsmtArea, house.BsmtArea);
         }
 
+        protected static void VerifyYearBuiltMatches(int yearBuilt, House house)
+        {
+            Assert.AreEqual(yearBuilt, house.YearBuilt);
+        }
+
         protected static House ConstructHouse(string address)
         {
             var house = new House();
