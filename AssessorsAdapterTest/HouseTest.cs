@@ -40,6 +40,13 @@ namespace AssessorsAdapterTest
             VerifyZipMatches(50131, house);
         }
 
+        [TestMethod]
+        public void AssessmentMatches()
+        {
+            var house = new House(Address);
+            VerifyAssessmentMatches(ExpectedAssessment, house);
+        }
+
         private static void VerifyAddressMatches(string address, House house)
         {
             Assert.AreEqual(address, house.Address, true);
@@ -58,6 +65,11 @@ namespace AssessorsAdapterTest
         private static void VerifyZipMatches(string zip, House house)
         {
             Assert.AreEqual(zip, house.Zip);
+        }
+
+        private void VerifyAssessmentMatches(int assessment, House house)
+        {
+            Assert.AreEqual(assessment, house.AssessmentTotal);
         }
 
         [TestMethod]

@@ -30,6 +30,8 @@ namespace AssessorsAdapter
 
         public string Zip { get; private set; }
 
+        public int AssessmentTotal { get; private set; }
+
         private static bool NoResultsFound(HtmlDocument doc)
         {
             return doc.DocumentNode.InnerText.Contains("0 Records");
@@ -37,26 +39,37 @@ namespace AssessorsAdapter
 
         private void ParseHtml(HtmlDocument document)
         {
+            ParseAddress(document);
+            ParseAssessment(document);
+        }
+
+        private void ParseAddress(HtmlDocument document)
+        {
             var addressNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Street Address");
             var addressTrNode = addressNode.ParentNode.ParentNode;
-            var address = addressTrNode.NextSibling.NextSibling.InnerText.Split(new[]{'\n'}, StringSplitOptions.RemoveEmptyEntries);
-            ParseAddress(address);
+            var address = addressTrNode.NextSibling.NextSibling.InnerText.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            Address = RemoveDuplicateSpaces(address[0]);
+            ParseCityAndZip(address[1]);
         }
 
-        private void ParseAddress(string[] address)
-        {
-            Address = RemoveSpaces(address[0]);
-            ParseCity(address[1]);
-        }
-
-        private void ParseCity(string city)
+        private void ParseCityAndZip(string city)
         {
             var strings = city.Split(new[] {" IA "}, StringSplitOptions.None);
             City = strings[0];
             Zip = strings[1];
         }
 
-        private string RemoveSpaces(string addressString)
+        private void ParseAssessment(HtmlDocument document)
+        {
+            var assessmentNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Assessment");
+            var assessmentTrNode = assessmentNode.ParentNode.ParentNode;
+            var assessmentTds = assessmentTrNode.NextSibling.SelectNodes("td");
+
+            AssessmentTotal = int.Parse(assessmentTds.Last().InnerText.Replace(",", ""));
+        }
+
+        private static string RemoveDuplicateSpaces(string addressString)
         {
             var builder = new StringBuilder();
             var lastWasSpace = false;
