@@ -106,31 +106,27 @@ namespace AssessorsAdapter
             Land = FormatInt(landTds[1].InnerText);
         }
 
-        private void ParseTsfla(HtmlDocument document)
+        private static string ParseResidenceProperty(HtmlDocument document, string nodeName)
         {
-            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == "TSFLA");
+            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == nodeName);
             var tsflaTdNode = tsflaNode.ParentNode;
             var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
+            return tsfla;
+        }
 
-            TSFLA = FormatInt(tsfla);
+        private void ParseTsfla(HtmlDocument document)
+        {
+            TSFLA = FormatInt(ParseResidenceProperty(document, "TSFLA"));
         }
 
         private void ParseBsmtArea(HtmlDocument document)
         {
-            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == "BSMT AREA");
-            var tsflaTdNode = tsflaNode.ParentNode;
-            var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
-
-            BsmtArea = FormatInt(tsfla);
+            BsmtArea = FormatInt(ParseResidenceProperty(document, "BSMT AREA"));
         }
 
         private void ParseYearBuilt(HtmlDocument document)
         {
-            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == "YEAR BUILT");
-            var tsflaTdNode = tsflaNode.ParentNode;
-            var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
-
-            YearBuilt = FormatInt(tsfla);
+            YearBuilt = FormatInt(ParseResidenceProperty(document, "YEAR BUILT"));
         }
 
         #endregion
