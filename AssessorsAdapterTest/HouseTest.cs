@@ -11,6 +11,8 @@ namespace AssessorsAdapterTest
 
         private static readonly House AndysHouse = ConstructHouse(AndysAddress);
 
+        private static readonly House DuplicateAddresses = ConstructHouse(MultipleAddresses);
+
         private static House ConstructHouse(string address)
         {
             var house = new House();
@@ -25,6 +27,7 @@ namespace AssessorsAdapterTest
         private const int Land = 13740;
 
         private const string AndysAddress = "9260 NW 36th St";
+        private const string MultipleAddresses = "9823 Laguna Dr";
 
         [TestMethod]
         public void HouseConstructor()
@@ -60,6 +63,19 @@ namespace AssessorsAdapterTest
         public void LandMatches()
         {
             VerifyLandMatches(Land, TestHouse);
+        }
+
+        [TestMethod]
+        public void NoResultsTest()
+        {
+            var house = ConstructHouse("123 Fake St");
+            Assert.IsTrue(house.NoRecordsFound);
+        }
+
+        [TestMethod]
+        public void MultipleResultsTest()
+        {
+            Assert.IsTrue(DuplicateAddresses.MultipleRecordsFound);
         }
 
         #region Verify methods

@@ -15,6 +15,10 @@ namespace AssessorsAdapter
     {
         private const string QueryUrl = @"http://www.assess.co.polk.ia.us/cgi-bin/invenquery/homequery.cgi?method=GET&address={0}&photo={2}&map={3}&jurisdiction={1}";
 
+        private string HomeUrl { get; set; }
+
+        #region Accessors
+
         public string Address { get; private set; }
 
         public string City { get; private set; }
@@ -25,10 +29,29 @@ namespace AssessorsAdapter
 
         public int Land { get; private set; }
 
-        private static bool NoResultsFound(HtmlDocument doc)
+        public bool MultipleRecordsFound { get; private set; }
+
+        public bool NoRecordsFound { get; private set; }
+
+        #endregion
+
+        #region Error checking
+
+        private bool CheckNoResultsFound(HtmlDocument doc)
         {
-            return doc.DocumentNode.InnerText.Contains("0 Records");
+            NoRecordsFound = doc.DocumentNode.InnerText.Contains(@"0 Records");
+            return NoRecordsFound;
         }
+
+        private bool CheckMoreThanOneResultFound(HtmlDocument doc)
+        {
+            MultipleRecordsFound = doc.DocumentNode.InnerText.Contains(@"Click on District/Parcel Button");
+            return MultipleRecordsFound;
+        }
+
+        #endregion
+
+        #region Parse Methods
 
         private void ParseHtml(HtmlDocument document)
         {
@@ -41,7 +64,7 @@ namespace AssessorsAdapter
         {
             var addressNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Street Address");
             var addressTrNode = addressNode.ParentNode.ParentNode;
-            var address = addressTrNode.NextSibling.NextSibling.InnerText.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var address = addressTrNode.NextSibling.NextSibling.InnerText.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
             Address = RemoveDuplicateSpaces(address[0]);
             ParseCityAndZip(address[1]);
@@ -72,6 +95,10 @@ namespace AssessorsAdapter
             Land = FormatInt(landTds[1].InnerText);
         }
 
+        #endregion
+
+        #region Formatters
+
         private static int FormatInt(string innerText)
         {
             return int.Parse(innerText.Replace(",", ""));
@@ -85,7 +112,7 @@ namespace AssessorsAdapter
             {
                 if (letter == ' ')
                 {
-                    if(lastWasSpace) continue;
+                    if (lastWasSpace) continue;
                     lastWasSpace = true;
                 }
                 else
@@ -97,6 +124,8 @@ namespace AssessorsAdapter
             return builder.ToString().Trim();
         }
 
+        #endregion
+
         public void FetchData(string address)
         {
             FetchData(address, "COUNTY-WIDE", true, false);
@@ -104,18 +133,20 @@ namespace AssessorsAdapter
 
         public void FetchData(string address, string city, bool photo, bool map)
         {
-            var url = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
-            var client = new WebClient { Proxy = { Credentials = CredentialCache.DefaultNetworkCredentials } };
-            var html = client.DownloadString(url);
-            
+            HomeUrl = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
+            var client = new WebClient {Proxy = {Credentials = CredentialCache.DefaultNetworkCredentials}};
+            var html = client.DownloadString(HomeUrl);
+
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            if (NoResultsFound(doc))
-            {
-                Process.Start("chrome", url);
-            }
+            if (CheckNoResultsFound(doc) || CheckMoreThanOneResultFound(doc)) return;
             ParseHtml(doc);
+        }
+
+        public void OpenWebPage()
+        {
+            Process.Start("chrome", HomeUrl);
         }
     }
 }
