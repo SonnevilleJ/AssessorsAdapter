@@ -56,6 +56,11 @@ namespace AssessorsAdapterTest
             Assert.AreEqual(fireplaces, house.Fireplaces);
         }
 
+        protected static void VerifyTaxesMatch(decimal taxes, House house)
+        {
+            Assert.AreEqual(taxes, house.GrossTaxes);
+        }
+
         protected static House ConstructHouse(string address)
         {
             var house = new House();

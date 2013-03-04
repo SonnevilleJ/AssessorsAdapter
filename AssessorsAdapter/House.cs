@@ -43,6 +43,8 @@ namespace AssessorsAdapter
 
         public int Fireplaces { get; private set; }
 
+        public decimal GrossTaxes { get; private set; }
+
         #endregion
 
         #region Error checking
@@ -72,6 +74,7 @@ namespace AssessorsAdapter
             ParseBsmtArea(document);
             ParseYearBuilt(document);
             ParseFireplaces(document);
+            ParseTaxes(document);
         }
 
         private void ParseAddress(HtmlDocument document)
@@ -137,6 +140,15 @@ namespace AssessorsAdapter
             Fireplaces = FormatInt(ParseResidenceProperty(document, "FIREPLACES"));
         }
 
+        private void ParseTaxes(HtmlDocument document)
+        {
+            var taxLink = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Polk County Treasurer Tax Information").Attributes["href"].Value;
+            var taxPage = DownloadHtml(taxLink);
+            var taxTd = taxPage.DocumentNode.Descendants("td").Last(node => node.InnerText.Contains("Equals Gross Tax"));
+            var grossTaxText = taxTd.NextSibling.NextSibling.InnerText.Trim(' ', '$');
+            GrossTaxes = decimal.Parse(grossTaxText.Replace(",", ""));
+        }
+
         #endregion
 
         #region Formatters
@@ -175,15 +187,21 @@ namespace AssessorsAdapter
         public void FetchData(string address, string city, bool photo, bool map)
         {
             HomeUrl = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
-            var client = new WebClient {Proxy = {Credentials = CredentialCache.DefaultNetworkCredentials}};
-            var html = client.DownloadString(HomeUrl);
-
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
+            var doc = DownloadHtml(HomeUrl);
 
             if (CheckNoResultsFound(doc) || CheckMoreThanOneResultFound(doc)) return;
             ParseHtml(doc);
             DataAvailable = true;
+        }
+
+        private static HtmlDocument DownloadHtml(string homeUrl)
+        {
+            var client = new WebClient {Proxy = {Credentials = CredentialCache.DefaultNetworkCredentials}};
+            var html = client.DownloadString(homeUrl);
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            return doc;
         }
 
         #endregion

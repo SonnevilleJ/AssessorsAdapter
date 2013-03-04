@@ -17,6 +17,7 @@ namespace AssessorsAdapterTest
         private const int BsmtArea = 1141;
         private const int YearBuilt = 2004;
         private const int Fireplaces = 1;
+        private const decimal Taxes = 5875.00m;
 
         [TestMethod]
         public void HouseConstructor()
@@ -82,6 +83,12 @@ namespace AssessorsAdapterTest
         public void FireplacesMatches()
         {
             VerifyFireplacesMatches(Fireplaces, TestHouse);
+        }
+
+        [TestMethod]
+        public void TaxesMatch()
+        {
+            VerifyTaxesMatch(Taxes, TestHouse);
         }
     }
 }
