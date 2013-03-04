@@ -25,6 +25,7 @@ namespace AssessorsAdapterTest
         private const int Zip = 50131;
         private const int Assessment = 291600;
         private const int Land = 13740;
+        private const int Tsfla = 2266;
 
         private const string AndysAddress = "9260 NW 36th St";
         private const string MultipleAddresses = "9823 Laguna Dr";
@@ -76,6 +77,12 @@ namespace AssessorsAdapterTest
         public void MultipleResultsTest()
         {
             Assert.IsTrue(DuplicateAddresses.MultipleRecordsFound);
+        }
+
+        [TestMethod]
+        public void TsflaMatches()
+        {
+            Assert.AreEqual(Tsfla, TestHouse.TSFLA);
         }
 
         #region Verify methods

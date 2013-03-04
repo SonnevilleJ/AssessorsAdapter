@@ -33,6 +33,8 @@ namespace AssessorsAdapter
 
         public bool NoRecordsFound { get; private set; }
 
+        public int TSFLA { get; set; }
+
         #endregion
 
         #region Error checking
@@ -58,6 +60,7 @@ namespace AssessorsAdapter
             ParseAddress(document);
             ParseAssessment(document);
             ParseLand(document);
+            ParseTsfla(document);
         }
 
         private void ParseAddress(HtmlDocument document)
@@ -95,6 +98,15 @@ namespace AssessorsAdapter
             Land = FormatInt(landTds[1].InnerText);
         }
 
+        private void ParseTsfla(HtmlDocument document)
+        {
+            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == "TSFLA");
+            var tsflaTdNode = tsflaNode.ParentNode;
+            var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
+
+            TSFLA = FormatInt(tsfla);
+        }
+
         #endregion
 
         #region Formatters
@@ -126,6 +138,8 @@ namespace AssessorsAdapter
 
         #endregion
 
+        #region Constructors
+
         public void FetchData(string address)
         {
             FetchData(address, "COUNTY-WIDE", true, false);
@@ -143,6 +157,8 @@ namespace AssessorsAdapter
             if (CheckNoResultsFound(doc) || CheckMoreThanOneResultFound(doc)) return;
             ParseHtml(doc);
         }
+
+        #endregion
 
         public void OpenWebPage()
         {
