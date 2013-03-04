@@ -3,7 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssessorsAdapterTest
 {
-    class OtherTests : HouseTestBase
+    [TestClass]
+    public class OtherTests : HouseTestBase
     {
         private static readonly House DuplicateAddresses = ConstructHouse("9823 Laguna Dr");
         private static readonly House NoResultsHouse = ConstructHouse("123 Fake St");

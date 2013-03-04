@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssessorsAdapterTest
 {
+    [TestClass]
     public class AndysHouseTest : HouseTestBase
     {
         private const string AndysAddress = "9260 NW 36th St";
