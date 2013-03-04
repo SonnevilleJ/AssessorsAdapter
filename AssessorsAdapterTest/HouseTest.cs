@@ -16,6 +16,7 @@ namespace AssessorsAdapterTest
         private const int Tsfla = 2266;
         private const int BsmtArea = 1141;
         private const int YearBuilt = 2004;
+        private const int Fireplaces = 1;
 
         [TestMethod]
         public void HouseConstructor()
@@ -75,6 +76,12 @@ namespace AssessorsAdapterTest
         public void YearBuiltMatches()
         {
             VerifyYearBuiltMatches(YearBuilt, TestHouse);
+        }
+
+        [TestMethod]
+        public void FireplacesMatches()
+        {
+            VerifyFireplacesMatches(Fireplaces, TestHouse);
         }
     }
 }

@@ -41,6 +41,8 @@ namespace AssessorsAdapter
 
         public int YearBuilt { get; private set; }
 
+        public int Fireplaces { get; private set; }
+
         #endregion
 
         #region Error checking
@@ -69,6 +71,7 @@ namespace AssessorsAdapter
             ParseTsfla(document);
             ParseBsmtArea(document);
             ParseYearBuilt(document);
+            ParseFireplaces(document);
         }
 
         private void ParseAddress(HtmlDocument document)
@@ -127,6 +130,11 @@ namespace AssessorsAdapter
         private void ParseYearBuilt(HtmlDocument document)
         {
             YearBuilt = FormatInt(ParseResidenceProperty(document, "YEAR BUILT"));
+        }
+
+        private void ParseFireplaces(HtmlDocument document)
+        {
+            Fireplaces = FormatInt(ParseResidenceProperty(document, "FIREPLACES"));
         }
 
         #endregion
