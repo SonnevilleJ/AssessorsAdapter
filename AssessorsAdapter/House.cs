@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using HtmlAgilityPack;
@@ -104,15 +105,17 @@ namespace AssessorsAdapter
         public void FetchData(string address, string city, bool photo, bool map)
         {
             var url = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
-            var client = new HtmlWeb();
-            var doc = client.Load(url);
+            var client = new WebClient { Proxy = { Credentials = CredentialCache.DefaultNetworkCredentials } };
+            var html = client.DownloadString(url);
+            
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
 
             if (NoResultsFound(doc))
             {
                 Process.Start("chrome", url);
             }
             ParseHtml(doc);
-
         }
     }
 }
