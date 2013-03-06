@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssessorsAdapterTest", "Ass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssessorsAdapter", "AssessorsAdapter\AssessorsAdapter.csproj", "{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{EF88D1D2-9E97-4819-9270-41743A341DBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistenceTest", "PersistenceTest\PersistenceTest.csproj", "{4D225FEF-B4C1-45A6-92D3-B1E232EE861A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF88D1D2-9E97-4819-9270-41743A341DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF88D1D2-9E97-4819-9270-41743A341DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF88D1D2-9E97-4819-9270-41743A341DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF88D1D2-9E97-4819-9270-41743A341DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D225FEF-B4C1-45A6-92D3-B1E232EE861A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D225FEF-B4C1-45A6-92D3-B1E232EE861A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D225FEF-B4C1-45A6-92D3-B1E232EE861A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D225FEF-B4C1-45A6-92D3-B1E232EE861A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
