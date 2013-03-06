@@ -1,8 +1,8 @@
 ﻿namespace Persistence
 {
-    public interface IRepository<T>
+    public interface IRepository<TKey, TValue>
     {
-        void Save(T obj);
-        void Delete(T obj);
+        void Save(TKey key, TValue value);
+        void Delete(TKey key);
     }
 }

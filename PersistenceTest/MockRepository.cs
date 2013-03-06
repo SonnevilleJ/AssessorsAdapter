@@ -1,25 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Persistence;
 
 namespace PersistenceTest
 {
-    public class MockRepository<T> : IRepository<T>
+    public class MockRepository<TKey, TValue> : IRepository<TKey, TValue>
     {
-        private readonly List<T> _repo = new List<T>();
+        private readonly Dictionary<TKey, TValue> _repo = new Dictionary<TKey, TValue>();
 
-        public void Save(T obj)
+        public void Save(TKey key, TValue value)
         {
-            _repo.Add(obj);
+            _repo.Add(key, value);
         }
 
-        public bool Contains(T obj)
+        public bool Contains(TKey key, TValue value)
         {
-            return _repo.Contains(obj);
+            TValue val;
+            var success = _repo.TryGetValue(key, out val);
+            return success && val.Equals(value);
         }
 
-        public void Delete(T obj)
+        public void Delete(TKey key)
         {
-            _repo.Remove(obj);
+            _repo.Remove(key);
+        }
+
+        public TValue Get(TKey key)
+        {
+            if (!_repo.ContainsKey(key)) throw new KeyNotFoundException();
+            return _repo[key];
         }
     }
 }
