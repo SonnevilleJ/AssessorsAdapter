@@ -6,11 +6,11 @@ namespace PersistenceTest
     [TestClass]
     public class HouseRepositoryTest
     {
-        private static readonly House TestHouse = ConstructHouse(Address);
+        private static readonly IHouse TestHouse = ConstructHouse(Address);
 
         private const string Address = "6324 Wilcot Ct";
 
-        private static House ConstructHouse(string address)
+        private static IHouse ConstructHouse(string address)
         {
             var house = new House();
             house.FetchData(address);

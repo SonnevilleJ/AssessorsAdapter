@@ -6,8 +6,8 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class OtherTests : HouseTestBase
     {
-        private static readonly House DuplicateAddresses = ConstructHouse("9823 Laguna Dr");
-        private static readonly House NoResultsHouse = ConstructHouse("123 Fake St");
+        private static readonly IHouse DuplicateAddresses = ConstructHouse("9823 Laguna Dr");
+        private static readonly IHouse NoResultsHouse = ConstructHouse("123 Fake St");
 
         [TestMethod]
         public void NoResultsTest()
