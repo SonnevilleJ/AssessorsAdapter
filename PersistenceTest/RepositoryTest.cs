@@ -25,7 +25,9 @@ namespace PersistenceTest
             const string value = "five";
             repo.Save(key, value);
 
-            repo.Get(key);
+            var result = repo.Get(key);
+
+            Assert.AreEqual(value, result);
         }
 
         [TestMethod]

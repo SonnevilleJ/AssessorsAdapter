@@ -11,11 +11,11 @@ namespace AssessorsAdapter
 #if DEBUG
     [ClassInterface(ClassInterfaceType.AutoDual)]
 #endif
-    public class House
+    public class House : IHouse
     {
         private const string QueryUrl = @"http://www.assess.co.polk.ia.us/cgi-bin/invenquery/homequery.cgi?method=GET&address={0}&photo={2}&map={3}&jurisdiction={1}";
 
-        private string HomeUrl { get; set; }
+        public string HomeUrl { get; set; }
 
         #region Accessors
 
