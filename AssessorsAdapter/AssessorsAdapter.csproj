@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="House.cs" />
+    <Compile Include="AssessorsHouse.cs" />
     <Compile Include="IHouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

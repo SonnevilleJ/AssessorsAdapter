@@ -2,7 +2,7 @@
 {
     public interface IHouse
     {
-        string HomeUrl { get; set; }
+        string HomeUrl { get; }
         string Address { get; }
         string City { get; }
         string Zip { get; }

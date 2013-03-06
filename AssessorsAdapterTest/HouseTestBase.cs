@@ -63,7 +63,7 @@ namespace AssessorsAdapterTest
 
         protected static IHouse ConstructHouse(string address)
         {
-            var house = new House();
+            var house = new AssessorsHouse();
             house.FetchData(address);
             return house;
         }
