@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Persistence;
+using AssessorsAdapter.Persistence;
 
-namespace PersistenceTest
+namespace AssessorsAdapterTest.Persistence
 {
     public class MockRepository<TKey, TValue> : IRepository<TKey, TValue>
     {

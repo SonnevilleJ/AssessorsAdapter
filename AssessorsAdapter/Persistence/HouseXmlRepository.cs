@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AssessorsAdapter;
 
-namespace Persistence
+namespace AssessorsAdapter.Persistence
 {
     public class HouseXmlRepository : IRepository<string, IHouse>
     {

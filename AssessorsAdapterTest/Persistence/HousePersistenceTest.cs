@@ -1,21 +1,12 @@
 ﻿using AssessorsAdapter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace PersistenceTest
+namespace AssessorsAdapterTest.Persistence
 {
     [TestClass]
     public class HousePersistenceTest
     {
-        private static readonly IHouse TestHouse = ConstructHouse(Address);
-
-        private const string Address = "6324 Wilcot Ct";
-
-        private static IHouse ConstructHouse(string address)
-        {
-            var house = new AssessorsHouse();
-            house.FetchData(address);
-            return house;
-        }
+        private static readonly IHouse TestHouse = HouseTest.TestHouse;
         
         [TestMethod]
         public void SaveHouse()

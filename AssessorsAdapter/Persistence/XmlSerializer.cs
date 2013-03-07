@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Persistence
+namespace AssessorsAdapter.Persistence
 {
     public static class XmlSerializer
     {

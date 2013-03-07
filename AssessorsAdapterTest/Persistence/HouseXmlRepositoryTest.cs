@@ -2,24 +2,15 @@
 using System.IO;
 using System.Linq;
 using AssessorsAdapter;
+using AssessorsAdapter.Persistence;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Persistence;
 
-namespace PersistenceTest
+namespace AssessorsAdapterTest.Persistence
 {
     [TestClass]
     public class HouseXmlRepositoryTest
     {
-        private static readonly AssessorsHouse TestHouse = ConstructHouse(Address);
-
-        private const string Address = "6324 Wilcot Ct";
-
-        private static AssessorsHouse ConstructHouse(string address)
-        {
-            var house = new AssessorsHouse();
-            house.FetchData(address);
-            return house;
-        }
+        private static readonly IHouse TestHouse = HouseTest.TestHouse;
 
         [TestMethod]
         public void ContainsWhenEmpty()

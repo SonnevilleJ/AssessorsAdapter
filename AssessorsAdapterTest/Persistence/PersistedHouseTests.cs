@@ -1,23 +1,14 @@
 ﻿using System.Linq;
 using AssessorsAdapter;
+using AssessorsAdapter.Persistence;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Persistence;
 
-namespace AssessorsAdapterTest
+namespace AssessorsAdapterTest.Persistence
 {
     [TestClass]
     public class PersistedHouseTests
     {
-        private static readonly IHouse AssessorsHouse = ConstructHouse(Address);
-
-        private const string Address = "6324 Wilcot Ct";
-
-        private static IHouse ConstructHouse(string address)
-        {
-            var house = new AssessorsHouse();
-            house.FetchData(address);
-            return house;
-        }
+        private static readonly IHouse AssessorsHouse = HouseTest.TestHouse;
 
         [TestMethod]
         public void ConvertFromAssessorsHouse()

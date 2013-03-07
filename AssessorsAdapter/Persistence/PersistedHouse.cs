@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using AssessorsAdapter;
 
-namespace Persistence
+namespace AssessorsAdapter.Persistence
 {
     public class PersistedHouse : IHouse, IEquatable<IHouse>
     {

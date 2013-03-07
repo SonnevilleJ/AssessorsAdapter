@@ -36,11 +36,17 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssessorsHouse.cs" />
     <Compile Include="IHouse.cs" />
+    <Compile Include="Persistence\HouseXmlRepository.cs" />
+    <Compile Include="Persistence\IRepository.cs" />
+    <Compile Include="Persistence\PersistedHouse.cs" />
+    <Compile Include="Persistence\Repository.cs" />
+    <Compile Include="Persistence\XmlSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

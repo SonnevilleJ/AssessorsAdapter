@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AssessorsAdapter.Persistence;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Persistence;
 
-namespace PersistenceTest
+namespace AssessorsAdapterTest.Persistence
 {
     [TestClass]
     public class XmlSerializerTest

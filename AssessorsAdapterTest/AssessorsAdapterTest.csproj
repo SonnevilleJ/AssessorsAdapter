@@ -51,20 +51,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AndysHouseTest.cs" />
-    <Compile Include="PersistedHouseTests.cs" />
     <Compile Include="HouseTest.cs" />
     <Compile Include="HouseTestBase.cs" />
     <Compile Include="OtherTests.cs" />
+    <Compile Include="Persistence\HousePersistenceTest.cs" />
+    <Compile Include="Persistence\HouseXmlRepositoryTest.cs" />
+    <Compile Include="Persistence\MockRepository.cs" />
+    <Compile Include="Persistence\PersistedHouseTests.cs" />
+    <Compile Include="Persistence\RepositoryTest.cs" />
+    <Compile Include="Persistence\XmlSerializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssessorsAdapter\AssessorsAdapter.csproj">
       <Project>{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}</Project>
       <Name>AssessorsAdapter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Persistence\Persistence.csproj">
-      <Project>{EF88D1D2-9E97-4819-9270-41743A341DBD}</Project>
-      <Name>Persistence</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
