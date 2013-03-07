@@ -24,6 +24,16 @@ namespace AssessorsAdapterTest.Persistence
             _repo.Remove(key);
         }
 
+        public bool ContainsValue(TValue value)
+        {
+            return _repo.ContainsValue(value);
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return _repo.ContainsKey(key);
+        }
+
         public TValue Get(TKey key)
         {
             if (!_repo.ContainsKey(key)) throw new KeyNotFoundException();

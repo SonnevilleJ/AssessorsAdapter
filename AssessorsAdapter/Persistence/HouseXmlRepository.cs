@@ -12,6 +12,8 @@ namespace AssessorsAdapter.Persistence
             Path = path;
         }
 
+        public string Path { get; private set; }
+
         public void Save(string key, IHouse value)
         {
             if (value.GetType().Name != typeof (PersistedHouse).Name)
@@ -24,11 +26,6 @@ namespace AssessorsAdapter.Persistence
             File.WriteAllText(fullPath, serialized);
         }
 
-        private string FormatFilename(string address)
-        {
-            return string.Format("{0}{1}{2}", Path, address, ".xml");
-        }
-
         public void Delete(string key)
         {
             var filename = FormatFilename(key);
@@ -37,35 +34,40 @@ namespace AssessorsAdapter.Persistence
 
         public bool ContainsValue(IHouse value)
         {
-            foreach (var filename in StoredValues)
-            {
-                using (var streamReader = new StreamReader(filename))
-                {
-                    var contents = streamReader.ReadToEnd();
-                    try
-                    {
-                        var deserialized = XmlSerializer.DeserializeFromXml<PersistedHouse>(contents);
-                        if (deserialized.Equals(value)) return true;
-                    }
-                    catch (TypeLoadException)
-                    {
-                    }
-                }
-            }
-            return false;
+            return StoredFiles.Any(filename => TryDeserialize(value, filename));
         }
 
         public bool ContainsKey(string key)
         {
             var filename = FormatFilename(key);
-            return StoredValues.Contains(filename);
+            return StoredFiles.Contains(filename);
         }
 
-        private IEnumerable<string> StoredValues
+        private string FormatFilename(string address)
+        {
+            return string.Format("{0}{1}{2}", Path, address, ".xml");
+        }
+
+        private IEnumerable<string> StoredFiles
         {
             get { return Directory.GetFiles(Path, "*.xml", SearchOption.TopDirectoryOnly); }
         }
 
-        public string Path { get; private set; }
+        private static bool TryDeserialize(IHouse value, string filename)
+        {
+            using (var streamReader = new StreamReader(filename))
+            {
+                var contents = streamReader.ReadToEnd();
+                try
+                {
+                    var deserialized = XmlSerializer.DeserializeFromXml<PersistedHouse>(contents);
+                    if (deserialized.Equals(value)) return true;
+                }
+                catch (TypeLoadException)
+                {
+                }
+            }
+            return false;
+        }
     }
 }
