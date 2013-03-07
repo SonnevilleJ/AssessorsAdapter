@@ -53,7 +53,7 @@ namespace Persistence
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Except(new[] { containingAssembly });
             if (assemblies.Any(assembly => GetCompatibleClasses(baseType, assembly).Any(matchingClass => TryDeserialize(matchingClass, xml, out result)))) return result;
 
-            throw new TypeLoadException(string.Format("Could not find a compatible type to implement interface: {0}.", typeof(T).FullName));
+            throw new TypeLoadException(string.Format("Could not find a compatible type to implement {1}: {0}.", typeof(T).FullName, typeof(T).IsInterface ? "interface" : "type"));
         }
 
         /// <summary>

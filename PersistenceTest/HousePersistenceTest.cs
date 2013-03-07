@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace PersistenceTest
 {
     [TestClass]
-    public class HouseRepositoryTest
+    public class HousePersistenceTest
     {
         private static readonly IHouse TestHouse = ConstructHouse(Address);
 

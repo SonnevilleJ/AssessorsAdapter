@@ -34,5 +34,27 @@ namespace AssessorsAdapterTest
 
             if (typeof (IHouse).GetProperties().Any(propertyInfo => !propertyInfo.GetValue(house).Equals(propertyInfo.GetValue(AssessorsHouse)))) Assert.Fail();
         }
+
+        [TestMethod]
+        public void PersistedHouseEqualsAssessorsHouse()
+        {
+            var house = PersistedHouse.FromIHouse(AssessorsHouse);
+
+            Assert.IsTrue(house.Equals(AssessorsHouse));
+        }
+
+        [TestMethod]
+        public void SerializationTest()
+        {
+            var target = PersistedHouse.FromIHouse(AssessorsHouse);
+            var xml = XmlSerializer.SerializeToXml(target);
+            var result = XmlSerializer.DeserializeFromXml<PersistedHouse>(xml);
+
+            var properties = target.GetType().GetProperties();
+            foreach (var propertyInfo in properties.Where(propertyInfo => propertyInfo.GetIndexParameters().Length == 0))
+            {
+                Assert.AreEqual(propertyInfo.GetValue(target, null), propertyInfo.GetValue(result, null));
+            }
+        }
     }
 }
