@@ -7,11 +7,9 @@ namespace AssessorsAdapter.Persistence
 {
     public class HouseXmlRepository : IRepository<string, IHouse>
     {
-        private readonly string _path;
-
         public HouseXmlRepository(string path)
         {
-            _path = path;
+            Path = path;
         }
 
         public void Save(string key, IHouse value)
@@ -28,12 +26,13 @@ namespace AssessorsAdapter.Persistence
 
         private string FormatFilename(string address)
         {
-            return string.Format("{0}{1}{2}", _path, address, ".xml");
+            return string.Format("{0}{1}{2}", Path, address, ".xml");
         }
 
         public void Delete(string key)
         {
-            throw new System.NotImplementedException();
+            var filename = FormatFilename(key);
+            if (File.Exists(filename)) File.Delete(filename);
         }
 
         public bool ContainsValue(IHouse value)
@@ -64,7 +63,9 @@ namespace AssessorsAdapter.Persistence
 
         private IEnumerable<string> StoredValues
         {
-            get { return Directory.GetFiles(_path, "*.xml", SearchOption.TopDirectoryOnly); }
+            get { return Directory.GetFiles(Path, "*.xml", SearchOption.TopDirectoryOnly); }
         }
+
+        public string Path { get; private set; }
     }
 }
