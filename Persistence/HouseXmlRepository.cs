@@ -6,11 +6,11 @@ using AssessorsAdapter;
 
 namespace Persistence
 {
-    public class XmlRepository : IRepository<string, IHouse>
+    public class HouseXmlRepository : IRepository<string, IHouse>
     {
         private readonly string _path;
 
-        public XmlRepository(string path)
+        public HouseXmlRepository(string path)
         {
             _path = path;
         }

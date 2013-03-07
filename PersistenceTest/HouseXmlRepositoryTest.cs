@@ -8,7 +8,7 @@ using Persistence;
 namespace PersistenceTest
 {
     [TestClass]
-    public class XmlRepositoryTest
+    public class HouseXmlRepositoryTest
     {
         private static readonly AssessorsHouse TestHouse = ConstructHouse(Address);
 
@@ -25,7 +25,7 @@ namespace PersistenceTest
         public void ContainsWhenEmpty()
         {
             var path = Path.GetTempPath();
-            var repo = new XmlRepository(path);
+            var repo = new HouseXmlRepository(path);
             var house = new PersistedHouse();
 
             Assert.IsFalse(repo.ContainsValue(house));
@@ -118,14 +118,14 @@ namespace PersistenceTest
             Assert.IsTrue(repo.ContainsKey(TestHouse.Address));
         }
 
-        private static XmlRepository GetTestRepo()
+        private static HouseXmlRepository GetTestRepo()
         {
             return GetTestRepo(Path.GetTempPath());
         }
 
-        private static XmlRepository GetTestRepo(string path)
+        private static HouseXmlRepository GetTestRepo(string path)
         {
-            return new XmlRepository(path);
+            return new HouseXmlRepository(path);
         }
     }
 }

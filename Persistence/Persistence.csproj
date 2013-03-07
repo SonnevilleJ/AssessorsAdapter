@@ -39,7 +39,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="PersistedHouse.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="XmlRepository.cs" />
+    <Compile Include="HouseXmlRepository.cs" />
     <Compile Include="XmlSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

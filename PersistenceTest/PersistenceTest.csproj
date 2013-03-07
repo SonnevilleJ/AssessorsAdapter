@@ -53,7 +53,7 @@
     <Compile Include="HousePersistenceTest.cs" />
     <Compile Include="MockRepository.cs" />
     <Compile Include="RepositoryTest.cs" />
-    <Compile Include="XmlRepositoryTest.cs" />
+    <Compile Include="HouseXmlRepositoryTest.cs" />
     <Compile Include="XmlSerializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
