@@ -8,10 +8,12 @@ namespace AssessorsAdapter.Persistence
     {
         public HouseXmlRepository(string path)
         {
-            Path = path;
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+            StoragePath = path;
         }
 
-        public string Path { get; private set; }
+        public string StoragePath { get; private set; }
 
         public void Save(string key, IHouse value)
         {
@@ -51,15 +53,23 @@ namespace AssessorsAdapter.Persistence
 
         private string FormatFilename(string address)
         {
-            return string.Format("{0}{1}{2}", Path, address, ".xml");
+            return string.Format("{0}{1}{2}{3}", StoragePath, Path.DirectorySeparatorChar, address, ".xml");
         }
 
         private IEnumerable<string> StoredKeys
         {
             get
             {
-                var files = Directory.EnumerateFiles(Path, "*.xml", SearchOption.TopDirectoryOnly);
+                var files = Directory.EnumerateFiles(StoragePath, "*.xml", SearchOption.TopDirectoryOnly);
                 return (files.Select(file => new FileInfo(file)).Select(fi => fi.Name).Select(fileName => fileName.Replace(".xml", string.Empty))).ToList();
+            }
+        }
+
+        public void Empty()
+        {
+            foreach (var key in StoredKeys)
+            {
+                Delete(key);
             }
         }
     }

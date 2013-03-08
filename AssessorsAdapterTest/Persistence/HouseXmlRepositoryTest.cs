@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AssessorsAdapter;
@@ -18,7 +19,25 @@ namespace AssessorsAdapterTest.Persistence
             var path = Path.GetTempPath();
             var repo = new HouseXmlRepository(path);
 
-            Assert.AreEqual(path, repo.Path);
+            Assert.AreEqual(path, repo.StoragePath);
+        }
+
+        [TestMethod]
+        public void PathCreatesDirectoryTest()
+        {
+            var path = GetUniqueTempPath();
+            try
+            {
+                if (Directory.Exists(path)) Assert.Inconclusive();
+
+                var repo = new HouseXmlRepository(path);
+
+                Assert.IsTrue(Directory.Exists(repo.StoragePath));
+            }
+            finally
+            {
+                Directory.Delete(path, true);
+            }
         }
 
         [TestMethod]
@@ -34,13 +53,20 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void SaveSerializesInPath()
         {
-            var path = Path.GetTempPath();
-            var repo = GetTestRepo(path);
-            var house = PersistedHouse.FromIHouse(TestHouse);
+            var path = GetUniqueTempPath();
+            try
+            {
+                var repo = GetTestRepo(path);
+                var house = PersistedHouse.FromIHouse(TestHouse);
 
-            repo.Save(house.Address, house);
+                repo.Save(house.Address, house);
 
-            Assert.IsTrue(HouseFoundInPath(path, house));
+                Assert.IsTrue(HouseFoundInPath(path, house));
+            }
+            finally
+            {
+                Directory.Delete(path, true);
+            }
         }
 
         [TestMethod]
@@ -102,7 +128,7 @@ namespace AssessorsAdapterTest.Persistence
 
             repo.Delete(TestHouse.Address);
 
-            Assert.IsFalse(HouseFoundInPath(repo.Path, PersistedHouse.FromIHouse(TestHouse)));
+            Assert.IsFalse(HouseFoundInPath(repo.StoragePath, PersistedHouse.FromIHouse(TestHouse)));
         }
 
         [TestMethod]
@@ -119,9 +145,40 @@ namespace AssessorsAdapterTest.Persistence
             Assert.AreEqual(house, value);
         }
 
+        [TestMethod]
+        public void EmptyClearsSerializedObjects()
+        {
+            var path = GetUniqueTempPath();
+            try
+            {
+                var repo = GetTestRepo(path);
+
+                if (new DirectoryInfo(path).GetFiles().Length != 0) Assert.Inconclusive();
+
+                repo.Save(TestHouse.Address, TestHouse);
+
+                var houses = HousesFoundInPath(repo.StoragePath);
+                if (houses.Count() != 1) Assert.Inconclusive();
+
+                repo.Empty();
+
+                houses = HousesFoundInPath(repo.StoragePath);
+                Assert.AreEqual(0, houses.Count());
+            }
+            finally
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
+        private static string GetUniqueTempPath()
+        {
+            return String.Format("{0}{1}", Path.GetTempPath(), Guid.NewGuid());
+        }
+
         private static HouseXmlRepository GetTestRepo()
         {
-            return GetTestRepo(Path.GetTempPath());
+            return GetTestRepo(GetUniqueTempPath());
         }
 
         private static HouseXmlRepository GetTestRepo(string path)
@@ -129,15 +186,36 @@ namespace AssessorsAdapterTest.Persistence
             return new HouseXmlRepository(path);
         }
 
-        private static bool HouseFoundInPath(string path, PersistedHouse house)
+        private static IEnumerable<string> FilesInPath(string path)
+        {
+            return Directory.GetFiles(path, "*.xml");
+        }
+
+        private static List<PersistedHouse> HousesFoundInPath(string path)
+        {
+            var files = FilesInPath(path);
+            var list = new List<PersistedHouse>();
+            foreach (var file in files)
+            {
+                string contents;
+                using (var reader = new StreamReader(file))
+                {
+                    contents = reader.ReadToEnd();
+                }
+                var deserialized = XmlSerializer.DeserializeFromXml<PersistedHouse>(contents);
+                list.Add(deserialized);
+            }
+            return list;
+        }
+
+        private static bool HouseFoundInPath(string path, IEquatable<IHouse> house)
         {
             var houseFound = false;
-            foreach (var filename in Directory.EnumerateFiles(path)
-                                              .Where(file =>
-                                              {
-                                                  var extension = Path.GetExtension(file);
-                                                  return extension != null && extension.ToLower() == ".xml";
-                                              }))
+            foreach (var filename in FilesInPath(path).Where(file =>
+                {
+                    var extension = Path.GetExtension(file);
+                    return extension != null && extension.ToLower() == ".xml";
+                }))
             {
                 using (var streamReader = new StreamReader(filename))
                 {
