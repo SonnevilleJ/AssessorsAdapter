@@ -1,51 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Text;
 using HtmlAgilityPack;
 
 namespace AssessorsAdapter
 {
-#if DEBUG
-    [ClassInterface(ClassInterfaceType.AutoDual)]
-#endif
-    public class AssessorsHouse : IHouse
+    public class AssessorsHouse : HouseBase
     {
         private const string QueryUrl = @"http://www.assess.co.polk.ia.us/cgi-bin/invenquery/homequery.cgi?method=GET&address={0}&photo={2}&map={3}&jurisdiction={1}";
-
-        public string HomeUrl { get; set; }
-
-        #region Accessors
-
-        public string Address { get; private set; }
-
-        public string City { get; private set; }
-
-        public string Zip { get; private set; }
-
-        public int AssessmentTotal { get; private set; }
-
-        public int Land { get; private set; }
-
-        public bool MultipleRecordsFound { get; private set; }
-
-        public bool NoRecordsFound { get; private set; }
-
-        public int TSFLA { get; private set; }
-
-        public bool DataAvailable { get; private set; }
-
-        public int BsmtArea { get; private set; }
-
-        public int YearBuilt { get; private set; }
-
-        public int Fireplaces { get; private set; }
-
-        public decimal GrossTaxes { get; private set; }
-
-        #endregion
 
         #region Error checking
 
@@ -177,7 +140,7 @@ namespace AssessorsAdapter
 
         #endregion
 
-        #region Constructors
+        #region Data retrieval
 
         public void FetchData(string address)
         {
@@ -205,10 +168,5 @@ namespace AssessorsAdapter
         }
 
         #endregion
-
-        public void OpenWebPage()
-        {
-            Process.Start("chrome", HomeUrl);
-        }
     }
 }

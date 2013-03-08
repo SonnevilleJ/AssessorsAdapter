@@ -1,6 +1,8 @@
-﻿namespace AssessorsAdapter
+﻿using System;
+
+namespace AssessorsAdapter
 {
-    public interface IHouse
+    public interface IHouse : IEquatable<IHouse>
     {
         string HomeUrl { get; }
         string Address { get; }

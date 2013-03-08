@@ -105,6 +105,20 @@ namespace AssessorsAdapterTest.Persistence
             Assert.IsFalse(HouseFoundInPath(repo.Path, PersistedHouse.FromIHouse(TestHouse)));
         }
 
+        [TestMethod]
+        public void FetchReturnsSame()
+        {
+            var repo = GetTestRepo();
+
+            var house = TestHouse;
+            var address = house.Address;
+            repo.Save(address, house);
+
+            var value = repo.Fetch(address);
+            Assert.IsTrue(house.Equals(value));
+            Assert.AreEqual(house, value);
+        }
+
         private static HouseXmlRepository GetTestRepo()
         {
             return GetTestRepo(Path.GetTempPath());

@@ -44,7 +44,7 @@ namespace AssessorsAdapterTest.Persistence
             var properties = target.GetType().GetProperties();
             foreach (var propertyInfo in properties.Where(propertyInfo => propertyInfo.GetIndexParameters().Length == 0))
             {
-                Assert.AreEqual(propertyInfo.GetValue(target, null), propertyInfo.GetValue(result, null));
+                Assert.AreEqual(propertyInfo.GetValue(target), propertyInfo.GetValue(result));
             }
         }
     }

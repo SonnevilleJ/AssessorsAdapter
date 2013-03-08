@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssessorsHouse.cs" />
+    <Compile Include="HouseBase.cs" />
     <Compile Include="IHouse.cs" />
     <Compile Include="Persistence\HouseXmlRepository.cs" />
     <Compile Include="Persistence\IRepository.cs" />

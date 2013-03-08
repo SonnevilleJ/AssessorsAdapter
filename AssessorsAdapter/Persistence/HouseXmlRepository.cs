@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -34,13 +33,20 @@ namespace AssessorsAdapter.Persistence
 
         public bool ContainsValue(IHouse value)
         {
-            return StoredFiles.Any(filename => TryDeserialize(value, filename));
+            return StoredKeys.Contains(value.Address);
         }
 
         public bool ContainsKey(string key)
         {
-            var filename = FormatFilename(key);
-            return StoredFiles.Contains(filename);
+            return StoredKeys.Contains(key);
+        }
+
+        public IHouse Fetch(string key)
+        {
+            using (var streamReader = new StreamReader(FormatFilename(key)))
+            {
+                return XmlSerializer.DeserializeFromXml<PersistedHouse>(streamReader.ReadToEnd());
+            }
         }
 
         private string FormatFilename(string address)
@@ -48,26 +54,13 @@ namespace AssessorsAdapter.Persistence
             return string.Format("{0}{1}{2}", Path, address, ".xml");
         }
 
-        private IEnumerable<string> StoredFiles
+        private IEnumerable<string> StoredKeys
         {
-            get { return Directory.GetFiles(Path, "*.xml", SearchOption.TopDirectoryOnly); }
-        }
-
-        private static bool TryDeserialize(IHouse value, string filename)
-        {
-            using (var streamReader = new StreamReader(filename))
+            get
             {
-                var contents = streamReader.ReadToEnd();
-                try
-                {
-                    var deserialized = XmlSerializer.DeserializeFromXml<PersistedHouse>(contents);
-                    if (deserialized.Equals(value)) return true;
-                }
-                catch (TypeLoadException)
-                {
-                }
+                var files = Directory.EnumerateFiles(Path, "*.xml", SearchOption.TopDirectoryOnly);
+                return (files.Select(file => new FileInfo(file)).Select(fi => fi.Name).Select(fileName => fileName.Replace(".xml", string.Empty))).ToList();
             }
-            return false;
         }
     }
 }
