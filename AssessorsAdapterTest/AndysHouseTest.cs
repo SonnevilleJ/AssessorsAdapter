@@ -16,9 +16,11 @@ namespace AssessorsAdapterTest
         [TestInitialize]
         public void Initialize()
         {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(Resources._9260_NW_36th_St);
-            _andysHouse = HouseFactory.ConstructHouse(doc, Address, City);
+            var housePage = new HtmlDocument();
+            housePage.LoadHtml(Resources._9260_NW_36th_St);
+            var taxPage = new HtmlDocument();
+            taxPage.LoadHtml(Resources._9260_NW_36th_St___taxes);
+            _andysHouse = HouseFactory.ConstructHouse(housePage, taxPage);
         }
 
         [TestMethod]

@@ -16,19 +16,23 @@ namespace AssessorsAdapter
             return ConstructHouse(address, "COUNTY-WIDE", true, false);
         }
 
-        public static IHouse ConstructHouse(string address, string city, bool photo = true, bool map = false)
+        public static IHouse ConstructHouse(string address, string city, bool photo, bool map)
         {
             var doc = DownloadHtml(BuildHomeUrl(address, city, photo, map));
 
-            return ConstructHouse(doc, address, city, photo, map);
+            return ConstructHouse(doc);
         }
 
-        public static IHouse ConstructHouse(HtmlDocument doc, string address, string city, bool photo = true, bool map = false)
+        public static IHouse ConstructHouse(HtmlDocument housePage)
+        {
+            return ConstructHouse(housePage, null);
+        }
+
+        public static IHouse ConstructHouse(HtmlDocument housePage, HtmlDocument taxPage)
         {
             var house = new House();
-            house.HomeUrl = BuildHomeUrl(address, city, photo, map);
-            house.NoRecordsFound = CheckNoResultsFound(doc);
-            house.MultipleRecordsFound = CheckMoreThanOneResultFound(doc);
+            house.NoRecordsFound = CheckNoResultsFound(housePage);
+            house.MultipleRecordsFound = CheckMoreThanOneResultFound(housePage);
 
             if (house.NoRecordsFound || house.MultipleRecordsFound)
             {
@@ -36,7 +40,12 @@ namespace AssessorsAdapter
             }
             else
             {
-                ParseHtml(doc, house);
+                if(taxPage == null)
+                {
+                    var taxLink = housePage.DocumentNode.Descendants("a").First(node => node.InnerText == "Polk County Treasurer Tax Information").Attributes["href"].Value;
+                    taxPage = DownloadHtml(taxLink);
+                }
+                ParseHtml(house, housePage, taxPage);
                 house.DataAvailable = true;
             }
             return house;
@@ -68,22 +77,23 @@ namespace AssessorsAdapter
 
         #region Parse Methods
 
-        private static void ParseHtml(HtmlDocument document, IHouse house)
+        private static void ParseHtml(IHouse house, HtmlDocument housePage, HtmlDocument taxPage)
         {
-            var address = ParseAddress(document);
+            var address = ParseAddress(housePage);
 
             house.Address = RemoveDuplicateSpaces(address[0]);
             var strings = address[1].Split(new[] {" IA "}, StringSplitOptions.None);
             house.City = strings[0];
             house.Zip = strings[1];
 
-            house.AssessmentTotal = ParseAssessment(document);
-            house.Land = ParseLand(document);
-            house.TSFLA = ParseTsfla(document);
-            house.BsmtArea = ParseBsmtArea(document);
-            house.YearBuilt = ParseYearBuilt(document);
-            house.Fireplaces = ParseFireplaces(document);
-            house.GrossTaxes = ParseTaxes(document);
+            house.AssessmentTotal = ParseAssessment(housePage);
+            house.Land = ParseLand(housePage);
+            house.TSFLA = ParseTsfla(housePage);
+            house.BsmtArea = ParseBsmtArea(housePage);
+            house.YearBuilt = ParseYearBuilt(housePage);
+            house.Fireplaces = ParseFireplaces(housePage);
+
+            house.GrossTaxes = ParseTaxes(taxPage);
         }
 
         private static string[] ParseAddress(HtmlDocument document)
@@ -140,10 +150,8 @@ namespace AssessorsAdapter
             return FormatInt(ParseResidenceProperty(document, "FIREPLACES"));
         }
 
-        private static decimal ParseTaxes(HtmlDocument document)
+        private static decimal ParseTaxes(HtmlDocument taxPage)
         {
-            var taxLink = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Polk County Treasurer Tax Information").Attributes["href"].Value;
-            var taxPage = DownloadHtml(taxLink);
             var taxTd = taxPage.DocumentNode.Descendants("td").Last(node => node.InnerText.Contains("Equals Gross Tax"));
             var grossTaxText = taxTd.NextSibling.NextSibling.InnerText.Trim(' ', '$');
             return Decimal.Parse(grossTaxText.Replace(",", ""));

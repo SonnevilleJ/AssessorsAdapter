@@ -23,9 +23,11 @@ namespace AssessorsAdapterTest
         [TestInitialize]
         public void Initialize()
         {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(Resources._6324_Wilcot_Ct);
-            _testHouse = HouseFactory.ConstructHouse(doc, Address, City);
+            var housePage = new HtmlDocument();
+            housePage.LoadHtml(Resources._6324_Wilcot_Ct);
+            var taxPage = new HtmlDocument();
+            taxPage.LoadHtml(Resources._6324_Wilcot_Ct___taxes);
+            _testHouse = HouseFactory.ConstructHouse(housePage, taxPage);
         }
 
         [TestMethod]

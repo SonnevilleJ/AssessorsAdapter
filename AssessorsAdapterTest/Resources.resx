@@ -124,8 +124,14 @@
   <data name="_6324_Wilcot_Ct" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\6324 Wilcot Ct.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="_6324_Wilcot_Ct___taxes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\6324 Wilcot Ct - taxes.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="_9260_NW_36th_St" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\9260 NW 36th St.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_9260_NW_36th_St___taxes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\9260 NW 36th St - taxes.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="_9823_Laguna_Dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\9823 Laguna Dr.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

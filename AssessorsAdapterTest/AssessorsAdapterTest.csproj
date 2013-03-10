@@ -95,6 +95,12 @@
   <ItemGroup>
     <None Include="Resources\9260 NW 36th St.htm" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6324 Wilcot Ct - taxes.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9260 NW 36th St - taxes.htm" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

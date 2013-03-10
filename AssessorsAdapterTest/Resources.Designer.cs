@@ -104,6 +104,24 @@ namespace AssessorsAdapterTest {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;                                                                  
+        ///&lt;head&gt;                                                                  
+        ///&lt;title&gt;Polk County Treasurer&apos;s Office - Database Inquiry&lt;/title&gt;                           
+        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+        ///&lt;link rel=&quot;StyleSheet&quot; href=&quot;/includes/main.css&quot; type=&quot;text/css&quot;&gt;
+        ///&lt;script language=&quot;JavaScript&quot;&gt;
+        ///&lt;!--
+        ///
+        /// var BaseUrl  = location.protocol + &apos;//&apos; + location.hostname + &apos;/&apos;;
+        /// var ImageUrl = BaseUrl + &apos;ima [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _6324_Wilcot_Ct___taxes {
+            get {
+                return ResourceManager.GetString("_6324_Wilcot_Ct___taxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;&lt;head&gt;
         ///&lt;title&gt;Polk/Des Moines Assessor - 180/00847-407-000 Listing&lt;/title&gt;
         ///&lt;/head&gt;
@@ -122,6 +140,24 @@ namespace AssessorsAdapterTest {
         internal static string _9260_NW_36th_St {
             get {
                 return ResourceManager.GetString("_9260_NW_36th_St", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;                                                                  
+        ///&lt;head&gt;                                                                  
+        ///&lt;title&gt;Polk County Treasurer&apos;s Office - Database Inquiry&lt;/title&gt;                           
+        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+        ///&lt;link rel=&quot;StyleSheet&quot; href=&quot;/includes/main.css&quot; type=&quot;text/css&quot;&gt;
+        ///&lt;script language=&quot;JavaScript&quot;&gt;
+        ///&lt;!--
+        ///
+        /// var BaseUrl  = location.protocol + &apos;//&apos; + location.hostname + &apos;/&apos;;
+        /// var ImageUrl = BaseUrl + &apos;ima [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _9260_NW_36th_St___taxes {
+            get {
+                return ResourceManager.GetString("_9260_NW_36th_St___taxes", resourceCulture);
             }
         }
         
