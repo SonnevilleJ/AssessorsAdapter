@@ -111,7 +111,6 @@ namespace AssessorsAdapterTest.Persistence
             repo.Save(address, house);
 
             var value = repo.Fetch(address);
-            Assert.IsTrue(house.Equals(value));
             Assert.AreEqual(house, value);
         }
 
@@ -140,6 +139,8 @@ namespace AssessorsAdapterTest.Persistence
                 Directory.Delete(path, true);
             }
         }
+
+        #region Private Methods
 
         private static string GetUniqueTempPath()
         {
@@ -211,5 +212,7 @@ namespace AssessorsAdapterTest.Persistence
                     return extension != null && extension.ToLower() == ".xml";
                 });
         }
+
+        #endregion
     }
 }

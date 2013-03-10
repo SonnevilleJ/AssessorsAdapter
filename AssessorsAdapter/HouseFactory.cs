@@ -10,32 +10,36 @@ namespace AssessorsAdapter
     public static class HouseFactory
     {
         private const string QueryUrl = @"http://www.assess.co.polk.ia.us/cgi-bin/invenquery/homequery.cgi?method=GET&address={0}&photo={2}&map={3}&jurisdiction={1}";
-        private static IHouse _house;
 
         public static IHouse ConstructHouse(string address)
         {
             return ConstructHouse(address, "COUNTY-WIDE", true, false);
         }
 
-        public static IHouse ConstructHouse(string address, string city, bool photo, bool map)
+        public static IHouse ConstructHouse(string address, string city, bool photo = true, bool map = false)
         {
-            _house = new House();
-            _house.HomeUrl = BuildHomeUrl(address, city, photo, map);
-            var doc = DownloadHtml(_house.HomeUrl);
+            var doc = DownloadHtml(BuildHomeUrl(address, city, photo, map));
 
-            _house.NoRecordsFound = CheckNoResultsFound(doc);
-            _house.MultipleRecordsFound = CheckMoreThanOneResultFound(doc);
+            return ConstructHouse(doc, address, city, photo, map);
+        }
 
-            if (_house.NoRecordsFound || _house.MultipleRecordsFound)
+        public static IHouse ConstructHouse(HtmlDocument doc, string address, string city, bool photo = true, bool map = false)
+        {
+            var house = new House();
+            house.HomeUrl = BuildHomeUrl(address, city, photo, map);
+            house.NoRecordsFound = CheckNoResultsFound(doc);
+            house.MultipleRecordsFound = CheckMoreThanOneResultFound(doc);
+
+            if (house.NoRecordsFound || house.MultipleRecordsFound)
             {
-                _house.DataAvailable = false;
+                house.DataAvailable = false;
             }
             else
             {
-                ParseHtml(doc);
-                _house.DataAvailable = true;
+                ParseHtml(doc, house);
+                house.DataAvailable = true;
             }
-            return _house;
+            return house;
         }
 
         private static string BuildHomeUrl(string address, string city, bool photo, bool map)
@@ -64,22 +68,22 @@ namespace AssessorsAdapter
 
         #region Parse Methods
 
-        private static void ParseHtml(HtmlDocument document)
+        private static void ParseHtml(HtmlDocument document, IHouse house)
         {
             var address = ParseAddress(document);
 
-            _house.Address = RemoveDuplicateSpaces(address[0]);
+            house.Address = RemoveDuplicateSpaces(address[0]);
             var strings = address[1].Split(new[] {" IA "}, StringSplitOptions.None);
-            _house.City = strings[0];
-            _house.Zip = strings[1];
+            house.City = strings[0];
+            house.Zip = strings[1];
 
-            _house.AssessmentTotal = ParseAssessment(document);
-            _house.Land = ParseLand(document);
-            _house.TSFLA = ParseTsfla(document);
-            _house.BsmtArea = ParseBsmtArea(document);
-            _house.YearBuilt = ParseYearBuilt(document);
-            _house.Fireplaces = ParseFireplaces(document);
-            _house.GrossTaxes = ParseTaxes(document);
+            house.AssessmentTotal = ParseAssessment(document);
+            house.Land = ParseLand(document);
+            house.TSFLA = ParseTsfla(document);
+            house.BsmtArea = ParseBsmtArea(document);
+            house.YearBuilt = ParseYearBuilt(document);
+            house.Fireplaces = ParseFireplaces(document);
+            house.GrossTaxes = ParseTaxes(document);
         }
 
         private static string[] ParseAddress(HtmlDocument document)
