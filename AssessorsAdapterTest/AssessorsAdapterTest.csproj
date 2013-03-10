@@ -54,11 +54,8 @@
     <Compile Include="HouseTest.cs" />
     <Compile Include="HouseTestBase.cs" />
     <Compile Include="OtherTests.cs" />
-    <Compile Include="Persistence\HousePersistenceTest.cs" />
     <Compile Include="Persistence\HouseXmlRepositoryTest.cs" />
-    <Compile Include="Persistence\MockRepository.cs" />
     <Compile Include="Persistence\PersistedHouseTests.cs" />
-    <Compile Include="Persistence\RepositoryTest.cs" />
     <Compile Include="Persistence\XmlSerializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
