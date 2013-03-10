@@ -11,7 +11,13 @@ namespace AssessorsAdapterTest.Persistence
     [TestClass]
     public class HouseXmlRepositoryTest
     {
-        private static readonly IHouse TestHouse = HouseTest.TestHouse;
+        private IHouse _testHouse;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _testHouse = HouseFactory.ConstructHouse("6324 Wilcot Ct");
+        }
 
         [TestMethod]
         public void PathTest()
@@ -57,7 +63,7 @@ namespace AssessorsAdapterTest.Persistence
             try
             {
                 var repo = GetTestRepo(path);
-                var house = HouseFactory.Clone(TestHouse);
+                var house = HouseFactory.Clone(_testHouse);
 
                 repo.Save(house.Address, house);
 
@@ -74,9 +80,9 @@ namespace AssessorsAdapterTest.Persistence
         {
             var repo = GetTestRepo();
 
-            repo.Save(TestHouse.Address, TestHouse);
+            repo.Save(_testHouse.Address, _testHouse);
 
-            Assert.IsTrue(repo.ContainsValue(TestHouse));
+            Assert.IsTrue(repo.ContainsValue(_testHouse));
         }
 
         [TestMethod]
@@ -84,9 +90,9 @@ namespace AssessorsAdapterTest.Persistence
         {
             var repo = GetTestRepo();
 
-            repo.Save(TestHouse.Address, TestHouse);
+            repo.Save(_testHouse.Address, _testHouse);
 
-            Assert.IsTrue(repo.ContainsKey(TestHouse.Address));
+            Assert.IsTrue(repo.ContainsKey(_testHouse.Address));
         }
 
         [TestMethod]
@@ -94,11 +100,11 @@ namespace AssessorsAdapterTest.Persistence
         {
             var repo = GetTestRepo();
 
-            repo.Save(TestHouse.Address, TestHouse);
+            repo.Save(_testHouse.Address, _testHouse);
 
-            repo.Delete(TestHouse.Address);
+            repo.Delete(_testHouse.Address);
 
-            Assert.IsFalse(HouseIsFoundInPath(repo.StoragePath, HouseFactory.Clone(TestHouse)));
+            Assert.IsFalse(HouseIsFoundInPath(repo.StoragePath, HouseFactory.Clone(_testHouse)));
         }
 
         [TestMethod]
@@ -106,7 +112,7 @@ namespace AssessorsAdapterTest.Persistence
         {
             var repo = GetTestRepo();
 
-            var house = TestHouse;
+            var house = _testHouse;
             var address = house.Address;
             repo.Save(address, house);
 
@@ -124,7 +130,7 @@ namespace AssessorsAdapterTest.Persistence
 
                 if (new DirectoryInfo(path).GetFiles().Length != 0) Assert.Inconclusive();
 
-                repo.Save(TestHouse.Address, TestHouse);
+                repo.Save(_testHouse.Address, _testHouse);
 
                 var houses = HousesFoundInPath(repo.StoragePath);
                 if (houses.Count() != 1) Assert.Inconclusive();
