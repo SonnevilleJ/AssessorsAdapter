@@ -20,7 +20,7 @@ namespace AssessorsAdapter
         public static IHouse ConstructHouse(string address, string city, bool photo, bool map)
         {
             _house = new House();
-            _house.HomeUrl = String.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : String.Empty, map ? "checked" : String.Empty);
+            _house.HomeUrl = BuildHomeUrl(address, city, photo, map);
             var doc = DownloadHtml(_house.HomeUrl);
 
             _house.NoRecordsFound = CheckNoResultsFound(doc);
@@ -36,6 +36,11 @@ namespace AssessorsAdapter
                 _house.DataAvailable = true;
             }
             return _house;
+        }
+
+        private static string BuildHomeUrl(string address, string city, bool photo, bool map)
+        {
+            return String.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : String.Empty, map ? "checked" : String.Empty);
         }
 
         public static IHouse Clone(IHouse assessorsHouse)

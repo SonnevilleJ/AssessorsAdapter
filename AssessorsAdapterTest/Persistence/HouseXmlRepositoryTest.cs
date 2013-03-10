@@ -61,7 +61,7 @@ namespace AssessorsAdapterTest.Persistence
 
                 repo.Save(house.Address, house);
 
-                Assert.IsTrue(HouseFoundInPath(path, house));
+                Assert.IsTrue(HouseIsFoundInPath(path, house));
             }
             finally
             {
@@ -98,7 +98,7 @@ namespace AssessorsAdapterTest.Persistence
 
             repo.Delete(TestHouse.Address);
 
-            Assert.IsFalse(HouseFoundInPath(repo.StoragePath, HouseFactory.Clone(TestHouse)));
+            Assert.IsFalse(HouseIsFoundInPath(repo.StoragePath, HouseFactory.Clone(TestHouse)));
         }
 
         [TestMethod]
@@ -178,14 +178,10 @@ namespace AssessorsAdapterTest.Persistence
             return list;
         }
 
-        private static bool HouseFoundInPath(string path, IEquatable<IHouse> house)
+        private static bool HouseIsFoundInPath(string path, IEquatable<IHouse> house)
         {
             var houseFound = false;
-            foreach (var filename in FilesInPath(path).Where(file =>
-                {
-                    var extension = Path.GetExtension(file);
-                    return extension != null && extension.ToLower() == ".xml";
-                }))
+            foreach (var filename in GetXmlFiles(path))
             {
                 using (var streamReader = new StreamReader(filename))
                 {
@@ -205,6 +201,15 @@ namespace AssessorsAdapterTest.Persistence
                 }
             }
             return houseFound;
+        }
+
+        private static IEnumerable<string> GetXmlFiles(string path)
+        {
+            return FilesInPath(path).Where(file =>
+                {
+                    var extension = Path.GetExtension(file);
+                    return extension != null && extension.ToLower() == ".xml";
+                });
         }
     }
 }
