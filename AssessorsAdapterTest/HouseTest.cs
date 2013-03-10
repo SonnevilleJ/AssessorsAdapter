@@ -1,4 +1,5 @@
 ﻿using AssessorsAdapter;
+using AssessorsAdapter.Persistence;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssessorsAdapterTest
@@ -89,6 +90,24 @@ namespace AssessorsAdapterTest
         public void TaxesMatch()
         {
             VerifyTaxesMatch(Taxes, TestHouse);
+        }
+
+        [TestMethod]
+        public void ConvertionEqualsOriginal()
+        {
+            var house = HouseFactory.Clone(TestHouse);
+
+            Assert.AreEqual(TestHouse, house);
+        }
+
+        [TestMethod]
+        public void SerializationTest()
+        {
+            var testHouse = TestHouse;
+            var xml = XmlSerializer.SerializeToXml(testHouse);
+            var deserialized = XmlSerializer.DeserializeFromXml<IHouse>(xml);
+
+            Assert.AreEqual(testHouse, deserialized);
         }
     }
 }
