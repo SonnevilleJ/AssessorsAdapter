@@ -6,31 +6,38 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class OtherTests : HouseTestBase
     {
-        private static readonly IHouse DuplicateAddresses = HouseFactory.ConstructHouse("9823 Laguna Dr");
-        private static readonly IHouse NoResultsHouse = HouseFactory.ConstructHouse("123 Fake St");
+        private static IHouse _noResultsHouse;
+        private static IHouse _duplicateAddresses;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _noResultsHouse = HouseFactory.ConstructHouse("123 Fake St");
+            _duplicateAddresses = HouseFactory.ConstructHouse("9823 Laguna Dr");
+        }
 
         [TestMethod]
         public void NoResultsTest()
         {
-            Assert.IsTrue(NoResultsHouse.NoRecordsFound);
+            Assert.IsTrue(_noResultsHouse.NoRecordsFound);
         }
 
         [TestMethod]
         public void NoResultsSetsDataAvailable()
         {
-            Assert.IsFalse(NoResultsHouse.DataAvailable);
+            Assert.IsFalse(_noResultsHouse.DataAvailable);
         }
 
         [TestMethod]
         public void MultipleResultsTest()
         {
-            Assert.IsTrue(DuplicateAddresses.MultipleRecordsFound);
+            Assert.IsTrue(_duplicateAddresses.MultipleRecordsFound);
         }
 
         [TestMethod]
         public void DuplicateAddressesDataAvailable()
         {
-            Assert.IsFalse(DuplicateAddresses.DataAvailable);
+            Assert.IsFalse(_duplicateAddresses.DataAvailable);
         }
     }
 }

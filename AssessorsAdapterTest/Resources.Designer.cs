@@ -61,23 +61,88 @@ namespace AssessorsAdapterTest {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;HTML&gt;&lt;HEAD&gt;
-        ///&lt;TITLE&gt;Polk/Des Moines Assessor - Query Too Vague&lt;/TITLE&gt;
-        ///&lt;/HEAD&gt;
-        ///&lt;BODY BGCOLOR=&quot;#FFFFEA&quot;   &gt;
-        ///  &lt;CENTER&gt;
-        ///  &lt;TABLE BORDER=0 CELLSPACING=&quot;0&quot;&gt;
-        ///    &lt;TR&gt;
-        ///    &lt;TD VALIGN=&quot;top&quot; ALIGN=&quot;CENTER&quot;&gt;
-        ///         &lt;IMG SRC=&quot;/images/look/logo/small.gif&quot; VALIGN=&quot;middle&quot;&gt;
-        ///      &lt;BR&gt;
-        ///      &lt;FONT SIZE=&quot;-1&quot;&gt;[ &lt;A HREF=&quot;/index.html&quot;&gt;Home&lt;/A&gt; ][ &lt;A HREF=&quot;/web/inven/query/queryAll.html&quot;&gt;General Query&lt;/A&gt; ]
-        ///	 [ &lt;A HREF=&quot;/web/inven/query/queryLegal.html&quot;&gt;Legal Query&lt;/A&gt; ]
-        ///	 [ &lt;A HREF=&quot;/web/inven/query/queryHome.html&quot;&gt;HomeOwn [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;html&gt;&lt;head&gt;
+        ///&lt;title&gt;Polk/Des Moines Assessor - Query Results&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body bgcolor=&quot;#FFFFEA&quot;&gt;
+        ///  &lt;center&gt;
+        ///  &lt;table border=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+        ///    &lt;tr&gt;
+        ///    &lt;td valign=&quot;top&quot; align=&quot;CENTER&quot;&gt;
+        ///         &lt;img src=&quot;/images/look/logo/small.gif&quot; valign=&quot;middle&quot;&gt;
+        ///      &lt;br&gt;
+        ///      &lt;font size=&quot;-1&quot;&gt;[ &lt;a href=&quot;/index.html&quot;&gt;Home&lt;/a&gt; ][ &lt;a href=&quot;/web/inven/query/queryAll.html&quot;&gt;General Query&lt;/a&gt; ]
+        ///	 [ &lt;a href=&quot;/web/inven/query/queryLegal.html&quot;&gt;Legal Query&lt;/a&gt; ]
+        ///	 [ &lt;a href=&quot;/web/inven/query/queryHome.html&quot;&gt;HomeOwner  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _123_Fake_St {
+            get {
+                return ResourceManager.GetString("_123_Fake_St", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;&lt;head&gt;
+        ///&lt;title&gt;Polk/Des Moines Assessor - 241/00523-067-914 Listing&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body bgcolor=&quot;#FFFFEA&quot;&gt;
+        ///  &lt;center&gt;
+        ///  &lt;table border=&quot;0&quot; cellspacing=&quot;7&quot;&gt;
+        ///    &lt;tr&gt;
+        ///    &lt;td valign=&quot;top&quot; align=&quot;CENTER&quot;&gt;
+        ///         &lt;img src=&quot;/images/look/logo/small.gif&quot; valign=&quot;middle&quot;&gt;
+        ///      &lt;br&gt;
+        ///      &lt;font size=&quot;-1&quot;&gt;[ &lt;a href=&quot;/index.html&quot;&gt;Home&lt;/a&gt; ]
+        ///		  [ &lt;a href=&quot;/web/inven/query/queryAll.html&quot;&gt;General Query&lt;/a&gt; ]
+        ///		  [ &lt;a href=&quot;/web/inven/query/queryLegal.html&quot;&gt;Legal Query&lt;/a&gt; ]
+        ///		  [ &lt;a href=&quot;/web/inven/query/query [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string _6324_Wilcot_Ct {
             get {
                 return ResourceManager.GetString("_6324_Wilcot_Ct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;&lt;head&gt;
+        ///&lt;title&gt;Polk/Des Moines Assessor - 180/00847-407-000 Listing&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body bgcolor=&quot;#FFFFEA&quot;&gt;
+        ///  &lt;center&gt;
+        ///  &lt;table border=&quot;0&quot; cellspacing=&quot;7&quot;&gt;
+        ///    &lt;tr&gt;
+        ///    &lt;td valign=&quot;top&quot; align=&quot;CENTER&quot;&gt;
+        ///         &lt;img src=&quot;/images/look/logo/small.gif&quot; valign=&quot;middle&quot;&gt;
+        ///      &lt;br&gt;
+        ///      &lt;font size=&quot;-1&quot;&gt;[ &lt;a href=&quot;/index.html&quot;&gt;Home&lt;/a&gt; ]
+        ///		  [ &lt;a href=&quot;/web/inven/query/queryAll.html&quot;&gt;General Query&lt;/a&gt; ]
+        ///		  [ &lt;a href=&quot;/web/inven/query/queryLegal.html&quot;&gt;Legal Query&lt;/a&gt; ]
+        ///		  [ &lt;a href=&quot;/web/inven/query/query [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _9260_NW_36th_St {
+            get {
+                return ResourceManager.GetString("_9260_NW_36th_St", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;&lt;head&gt;
+        ///&lt;title&gt;Polk/Des Moines Assessor - Query Results&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body bgcolor=&quot;#FFFFEA&quot;&gt;
+        ///  &lt;center&gt;
+        ///  &lt;table border=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+        ///    &lt;tr&gt;
+        ///    &lt;td valign=&quot;top&quot; align=&quot;CENTER&quot;&gt;
+        ///         &lt;img src=&quot;/images/look/logo/small.gif&quot; valign=&quot;middle&quot;&gt;
+        ///      &lt;br&gt;
+        ///      &lt;font size=&quot;-1&quot;&gt;[ &lt;a href=&quot;/index.html&quot;&gt;Home&lt;/a&gt; ][ &lt;a href=&quot;/web/inven/query/queryAll.html&quot;&gt;General Query&lt;/a&gt; ]
+        ///	 [ &lt;a href=&quot;/web/inven/query/queryLegal.html&quot;&gt;Legal Query&lt;/a&gt; ]
+        ///	 [ &lt;a href=&quot;/web/inven/query/queryHome.html&quot;&gt;HomeOwner  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _9823_Laguna_Dr {
+            get {
+                return ResourceManager.GetString("_9823_Laguna_Dr", resourceCulture);
             }
         }
     }

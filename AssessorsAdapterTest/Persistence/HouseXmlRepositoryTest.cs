@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using AssessorsAdapter;
 using AssessorsAdapter.Persistence;
+using HtmlAgilityPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssessorsAdapterTest.Persistence
@@ -16,7 +17,9 @@ namespace AssessorsAdapterTest.Persistence
         [TestInitialize]
         public void Initialize()
         {
-            _testHouse = HouseFactory.ConstructHouse("6324 Wilcot Ct");
+            var doc = new HtmlDocument();
+            doc.LoadHtml(Resources._6324_Wilcot_Ct);
+            _testHouse = HouseFactory.ConstructHouse(doc, "6324 Wilcot Ct", "Johnston");
         }
 
         [TestMethod]

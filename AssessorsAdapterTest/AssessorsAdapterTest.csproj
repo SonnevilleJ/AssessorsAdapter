@@ -35,7 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -80,6 +85,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\6324 Wilcot Ct.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\123 Fake St.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9823 Laguna Dr.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9260 NW 36th St.htm" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
