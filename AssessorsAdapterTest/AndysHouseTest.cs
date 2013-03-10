@@ -8,7 +8,7 @@ namespace AssessorsAdapterTest
     {
         private const string AndysAddress = "9260 NW 36th St";
         
-        private static readonly IHouse AndysHouse = ConstructHouse(AndysAddress);
+        private static readonly IHouse AndysHouse = HouseFactory.ConstructHouse(AndysAddress);
 
         [TestMethod]
         public void AndysAddressMatches()

@@ -13,7 +13,7 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void ConvertFromAssessorsHouse()
         {
-            var house = PersistedHouse.FromIHouse(AssessorsHouse);
+            var house = HouseFactory.Clone(AssessorsHouse);
 
             Assert.IsNotNull(house);
         }
@@ -21,7 +21,7 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void ConvertionCopiesAllProperties()
         {
-            var house = PersistedHouse.FromIHouse(AssessorsHouse);
+            var house = HouseFactory.Clone(AssessorsHouse);
 
             if (typeof (IHouse).GetProperties().Any(propertyInfo => !propertyInfo.GetValue(house).Equals(propertyInfo.GetValue(AssessorsHouse)))) Assert.Fail();
         }
@@ -29,7 +29,7 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void PersistedHouseEqualsAssessorsHouse()
         {
-            var house = PersistedHouse.FromIHouse(AssessorsHouse);
+            var house = HouseFactory.Clone(AssessorsHouse);
 
             Assert.IsTrue(house.Equals(AssessorsHouse));
         }
@@ -37,9 +37,9 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void SerializationTest()
         {
-            var target = PersistedHouse.FromIHouse(AssessorsHouse);
+            var target = HouseFactory.Clone(AssessorsHouse);
             var xml = XmlSerializer.SerializeToXml(target);
-            var result = XmlSerializer.DeserializeFromXml<PersistedHouse>(xml);
+            var result = XmlSerializer.DeserializeFromXml<House>(xml);
 
             var properties = target.GetType().GetProperties();
             foreach (var propertyInfo in properties.Where(propertyInfo => propertyInfo.GetIndexParameters().Length == 0))

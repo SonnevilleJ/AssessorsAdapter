@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssessorsHouse.cs" />
+    <Compile Include="HouseFactory.cs" />
     <Compile Include="HouseBase.cs" />
     <Compile Include="IHouse.cs" />
     <Compile Include="Persistence\HouseXmlRepository.cs" />
     <Compile Include="Persistence\IRepository.cs" />
-    <Compile Include="Persistence\PersistedHouse.cs" />
+    <Compile Include="Persistence\House.cs" />
     <Compile Include="Persistence\Repository.cs" />
     <Compile Include="Persistence\XmlSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,77 +2,105 @@
 using System.Linq;
 using System.Net;
 using System.Text;
+using AssessorsAdapter.Persistence;
 using HtmlAgilityPack;
 
 namespace AssessorsAdapter
 {
-    public class AssessorsHouse : HouseBase
+    public static class HouseFactory
     {
         private const string QueryUrl = @"http://www.assess.co.polk.ia.us/cgi-bin/invenquery/homequery.cgi?method=GET&address={0}&photo={2}&map={3}&jurisdiction={1}";
+        private static IHouse _house;
+
+        public static IHouse ConstructHouse(string address)
+        {
+            return ConstructHouse(address, "COUNTY-WIDE", true, false);
+        }
+
+        public static IHouse ConstructHouse(string address, string city, bool photo, bool map)
+        {
+            _house = new House();
+            _house.HomeUrl = String.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : String.Empty, map ? "checked" : String.Empty);
+            var doc = DownloadHtml(_house.HomeUrl);
+
+            _house.NoRecordsFound = CheckNoResultsFound(doc);
+            _house.MultipleRecordsFound = CheckMoreThanOneResultFound(doc);
+
+            if (_house.NoRecordsFound || _house.MultipleRecordsFound)
+            {
+                _house.DataAvailable = false;
+            }
+            else
+            {
+                ParseHtml(doc);
+                _house.DataAvailable = true;
+            }
+            return _house;
+        }
+
+        public static IHouse Clone(IHouse assessorsHouse)
+        {
+            return new House(assessorsHouse);
+        }
 
         #region Error checking
 
-        private bool CheckNoResultsFound(HtmlDocument doc)
+        private static bool CheckNoResultsFound(HtmlDocument doc)
         {
-            NoRecordsFound = doc.DocumentNode.InnerText.Contains(@"0 Records");
-            return NoRecordsFound;
+            return doc.DocumentNode.InnerText.Contains(@"0 Records");
         }
 
-        private bool CheckMoreThanOneResultFound(HtmlDocument doc)
+        private static bool CheckMoreThanOneResultFound(HtmlDocument doc)
         {
-            MultipleRecordsFound = doc.DocumentNode.InnerText.Contains(@"Click on District/Parcel Button");
-            return MultipleRecordsFound;
+            return doc.DocumentNode.InnerText.Contains(@"Click on District/Parcel Button");
         }
 
         #endregion
 
         #region Parse Methods
 
-        private void ParseHtml(HtmlDocument document)
+        private static void ParseHtml(HtmlDocument document)
         {
-            ParseAddress(document);
-            ParseAssessment(document);
-            ParseLand(document);
-            ParseTsfla(document);
-            ParseBsmtArea(document);
-            ParseYearBuilt(document);
-            ParseFireplaces(document);
-            ParseTaxes(document);
+            var address = ParseAddress(document);
+
+            _house.Address = RemoveDuplicateSpaces(address[0]);
+            var strings = address[1].Split(new[] {" IA "}, StringSplitOptions.None);
+            _house.City = strings[0];
+            _house.Zip = strings[1];
+
+            _house.AssessmentTotal = ParseAssessment(document);
+            _house.Land = ParseLand(document);
+            _house.TSFLA = ParseTsfla(document);
+            _house.BsmtArea = ParseBsmtArea(document);
+            _house.YearBuilt = ParseYearBuilt(document);
+            _house.Fireplaces = ParseFireplaces(document);
+            _house.GrossTaxes = ParseTaxes(document);
         }
 
-        private void ParseAddress(HtmlDocument document)
+        private static string[] ParseAddress(HtmlDocument document)
         {
             var addressNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Street Address");
             var addressTrNode = addressNode.ParentNode.ParentNode;
             var address = addressTrNode.NextSibling.NextSibling.InnerText.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
-
-            Address = RemoveDuplicateSpaces(address[0]);
-            ParseCityAndZip(address[1]);
+            return address;
         }
 
-        private void ParseCityAndZip(string city)
-        {
-            var strings = city.Split(new[] {" IA "}, StringSplitOptions.None);
-            City = strings[0];
-            Zip = strings[1];
-        }
-
-        private void ParseAssessment(HtmlDocument document)
+        private static int ParseAssessment(HtmlDocument document)
         {
             var assessmentNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Assessment");
             var assessmentTrNode = assessmentNode.ParentNode.ParentNode;
             var assessmentTds = assessmentTrNode.NextSibling.SelectNodes("td");
 
-            AssessmentTotal = FormatInt(assessmentTds.Last().InnerText);
+            return FormatInt(assessmentTds.Last().InnerText);
         }
 
-        private void ParseLand(HtmlDocument document)
+        private static int ParseLand(HtmlDocument document)
         {
             var landNode = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Land");
             var landTrNode = landNode.ParentNode.ParentNode.ParentNode;
             var landTds = landTrNode.NextSibling.SelectNodes("td");
 
-            Land = FormatInt(landTds[1].InnerText);
+            return FormatInt(landTds[1].InnerText);
         }
 
         private static string ParseResidenceProperty(HtmlDocument document, string nodeName)
@@ -83,33 +111,33 @@ namespace AssessorsAdapter
             return tsfla;
         }
 
-        private void ParseTsfla(HtmlDocument document)
+        private static int ParseTsfla(HtmlDocument document)
         {
-            TSFLA = FormatInt(ParseResidenceProperty(document, "TSFLA"));
+            return FormatInt(ParseResidenceProperty(document, "TSFLA"));
         }
 
-        private void ParseBsmtArea(HtmlDocument document)
+        private static int ParseBsmtArea(HtmlDocument document)
         {
-            BsmtArea = FormatInt(ParseResidenceProperty(document, "BSMT AREA"));
+            return FormatInt(ParseResidenceProperty(document, "BSMT AREA"));
         }
 
-        private void ParseYearBuilt(HtmlDocument document)
+        private static int ParseYearBuilt(HtmlDocument document)
         {
-            YearBuilt = FormatInt(ParseResidenceProperty(document, "YEAR BUILT"));
+            return FormatInt(ParseResidenceProperty(document, "YEAR BUILT"));
         }
 
-        private void ParseFireplaces(HtmlDocument document)
+        private static int ParseFireplaces(HtmlDocument document)
         {
-            Fireplaces = FormatInt(ParseResidenceProperty(document, "FIREPLACES"));
+            return FormatInt(ParseResidenceProperty(document, "FIREPLACES"));
         }
 
-        private void ParseTaxes(HtmlDocument document)
+        private static decimal ParseTaxes(HtmlDocument document)
         {
             var taxLink = document.DocumentNode.Descendants("a").First(node => node.InnerText == "Polk County Treasurer Tax Information").Attributes["href"].Value;
             var taxPage = DownloadHtml(taxLink);
             var taxTd = taxPage.DocumentNode.Descendants("td").Last(node => node.InnerText.Contains("Equals Gross Tax"));
             var grossTaxText = taxTd.NextSibling.NextSibling.InnerText.Trim(' ', '$');
-            GrossTaxes = decimal.Parse(grossTaxText.Replace(",", ""));
+            return Decimal.Parse(grossTaxText.Replace(",", ""));
         }
 
         #endregion
@@ -118,7 +146,7 @@ namespace AssessorsAdapter
 
         private static int FormatInt(string innerText)
         {
-            return int.Parse(innerText.Replace(",", ""));
+            return Int32.Parse(innerText.Replace(",", ""));
         }
 
         private static string RemoveDuplicateSpaces(string addressString)
@@ -141,21 +169,6 @@ namespace AssessorsAdapter
         #endregion
 
         #region Data retrieval
-
-        public void FetchData(string address)
-        {
-            FetchData(address, "COUNTY-WIDE", true, false);
-        }
-
-        public void FetchData(string address, string city, bool photo, bool map)
-        {
-            HomeUrl = string.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : "", map ? "checked" : "");
-            var doc = DownloadHtml(HomeUrl);
-
-            if (CheckNoResultsFound(doc) || CheckMoreThanOneResultFound(doc)) return;
-            ParseHtml(doc);
-            DataAvailable = true;
-        }
 
         private static HtmlDocument DownloadHtml(string homeUrl)
         {

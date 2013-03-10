@@ -45,7 +45,7 @@ namespace AssessorsAdapterTest.Persistence
         {
             var path = Path.GetTempPath();
             var repo = new HouseXmlRepository(path);
-            var house = new PersistedHouse();
+            var house = new House();
 
             Assert.IsFalse(repo.ContainsValue(house));
         }
@@ -57,7 +57,7 @@ namespace AssessorsAdapterTest.Persistence
             try
             {
                 var repo = GetTestRepo(path);
-                var house = PersistedHouse.FromIHouse(TestHouse);
+                var house = HouseFactory.Clone(TestHouse);
 
                 repo.Save(house.Address, house);
 
@@ -67,36 +67,6 @@ namespace AssessorsAdapterTest.Persistence
             {
                 Directory.Delete(path, true);
             }
-        }
-
-        [TestMethod]
-        public void SaveIHouseConvertsToPersistedHouse()
-        {
-            var persistedHouse = PersistedHouse.FromIHouse(TestHouse);
-            var path = Path.GetTempPath();
-            var repo = GetTestRepo();
-
-            repo.Save(TestHouse.Address, TestHouse);
-
-            var houseFound = false;
-            foreach (var filename in Directory.EnumerateFiles(path)
-                                  .Where(file =>
-                                  {
-                                      var extension = Path.GetExtension(file);
-                                      return extension != null && extension.ToLower() == ".xml";
-                                  }))
-            {
-                using (var streamReader = new StreamReader(filename))
-                {
-                    var contents = streamReader.ReadToEnd();
-                    var typeName = persistedHouse.GetType().Name;
-                    if (contents.Contains(typeName))
-                    {
-                        houseFound = true;
-                    }
-                }
-            }
-            Assert.IsTrue(houseFound);
         }
 
         [TestMethod]
@@ -128,7 +98,7 @@ namespace AssessorsAdapterTest.Persistence
 
             repo.Delete(TestHouse.Address);
 
-            Assert.IsFalse(HouseFoundInPath(repo.StoragePath, PersistedHouse.FromIHouse(TestHouse)));
+            Assert.IsFalse(HouseFoundInPath(repo.StoragePath, HouseFactory.Clone(TestHouse)));
         }
 
         [TestMethod]
@@ -191,10 +161,10 @@ namespace AssessorsAdapterTest.Persistence
             return Directory.GetFiles(path, "*.xml");
         }
 
-        private static List<PersistedHouse> HousesFoundInPath(string path)
+        private static List<House> HousesFoundInPath(string path)
         {
             var files = FilesInPath(path);
-            var list = new List<PersistedHouse>();
+            var list = new List<House>();
             foreach (var file in files)
             {
                 string contents;
@@ -202,7 +172,7 @@ namespace AssessorsAdapterTest.Persistence
                 {
                     contents = reader.ReadToEnd();
                 }
-                var deserialized = XmlSerializer.DeserializeFromXml<PersistedHouse>(contents);
+                var deserialized = XmlSerializer.DeserializeFromXml<House>(contents);
                 list.Add(deserialized);
             }
             return list;

@@ -60,12 +60,5 @@ namespace AssessorsAdapterTest
         {
             Assert.AreEqual(taxes, house.GrossTaxes);
         }
-
-        protected static IHouse ConstructHouse(string address)
-        {
-            var house = new AssessorsHouse();
-            house.FetchData(address);
-            return house;
-        }
     }
 }

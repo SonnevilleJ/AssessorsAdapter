@@ -4,20 +4,20 @@ namespace AssessorsAdapter
 {
     public interface IHouse : IEquatable<IHouse>
     {
-        string HomeUrl { get; }
-        string Address { get; }
-        string City { get; }
-        string Zip { get; }
-        int AssessmentTotal { get; }
-        int Land { get; }
-        bool MultipleRecordsFound { get; }
-        bool NoRecordsFound { get; }
-        int TSFLA { get; }
-        bool DataAvailable { get; }
-        int BsmtArea { get; }
-        int YearBuilt { get; }
-        int Fireplaces { get; }
-        decimal GrossTaxes { get; }
+        string HomeUrl { get; set; }
+        string Address { get; set; }
+        string City { get; set; }
+        string Zip { get; set; }
+        int AssessmentTotal { get; set; }
+        int Land { get; set; }
+        bool MultipleRecordsFound { get; set; }
+        bool NoRecordsFound { get; set; }
+        int TSFLA { get; set; }
+        bool DataAvailable { get; set; }
+        int BsmtArea { get; set; }
+        int YearBuilt { get; set; }
+        int Fireplaces { get; set; }
+        decimal GrossTaxes { get; set; }
         void OpenWebPage();
     }
 }

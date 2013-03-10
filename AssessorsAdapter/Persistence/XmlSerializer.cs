@@ -36,6 +36,7 @@ namespace AssessorsAdapter.Persistence
         /// </summary>
         /// <typeparam name="T">The type of object to deserialize.</typeparam>
         /// <param name="xml">The serialized XML.</param>
+        /// <exception cref="TypeLoadException">Thrown when unable to idenitfy a type suitable for deserialization.</exception>
         /// <returns></returns>
         public static T DeserializeFromXml<T>(string xml)
         {

@@ -6,7 +6,7 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class HouseTest : HouseTestBase
     {
-        public static readonly IHouse TestHouse = ConstructHouse(Address);
+        public static readonly IHouse TestHouse = HouseFactory.ConstructHouse(Address);
 
         private const string Address = "6324 Wilcot Ct";
         private const string City = "Johnston";

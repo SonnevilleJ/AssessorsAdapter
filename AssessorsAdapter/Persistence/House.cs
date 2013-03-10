@@ -1,12 +1,12 @@
 ﻿namespace AssessorsAdapter.Persistence
 {
-    public class PersistedHouse : HouseBase
+    public class House : HouseBase
     {
-        public PersistedHouse()
+        public House()
         {
         }
 
-        private PersistedHouse(IHouse house)
+        public House(IHouse house)
         {
             HomeUrl = house.HomeUrl;
             Address = house.Address;
@@ -22,11 +22,6 @@
             YearBuilt = house.YearBuilt;
             Fireplaces = house.Fireplaces;
             GrossTaxes = house.GrossTaxes;
-        }
-
-        public static PersistedHouse FromIHouse(IHouse assessorsHouse)
-        {
-            return new PersistedHouse(assessorsHouse);
         }
     }
 }
