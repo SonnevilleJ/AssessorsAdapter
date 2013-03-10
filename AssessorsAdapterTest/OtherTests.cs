@@ -1,4 +1,5 @@
 ﻿using AssessorsAdapter;
+using HtmlAgilityPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssessorsAdapterTest
@@ -12,8 +13,13 @@ namespace AssessorsAdapterTest
         [TestInitialize]
         public void Initialize()
         {
-            _noResultsHouse = HouseFactory.ConstructHouse("123 Fake St");
-            _duplicateAddresses = HouseFactory.ConstructHouse("9823 Laguna Dr");
+            var doc = new HtmlDocument();
+            doc.LoadHtml(Resources._123_Fake_St);
+            _noResultsHouse = HouseFactory.ConstructHouse(doc);
+
+            doc = new HtmlDocument();
+            doc.LoadHtml(Resources._9823_Laguna_Dr);
+            _duplicateAddresses = HouseFactory.ConstructHouse(doc);
         }
 
         [TestMethod]
