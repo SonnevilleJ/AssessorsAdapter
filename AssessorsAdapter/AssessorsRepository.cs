@@ -46,7 +46,6 @@ namespace AssessorsAdapter
 
         public void Empty()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

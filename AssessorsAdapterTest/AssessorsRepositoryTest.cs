@@ -34,5 +34,18 @@ namespace AssessorsAdapterTest
             factoryMock.Verify(x => x.ConstructHouse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Never());
             factoryMock.Verify(x => x.Clone(It.IsAny<IHouse>()), Times.Never());
         }
+
+        [TestMethod]
+        public void EmptyDoesNothing()
+        {
+            var factoryMock = new Mock<IHouseFactory>();
+            var repo = new AssessorsRepository(factoryMock.Object);
+
+            repo.Empty();
+
+            factoryMock.Verify(x => x.ConstructHouse(It.IsAny<string>()), Times.Never());
+            factoryMock.Verify(x => x.ConstructHouse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Never());
+            factoryMock.Verify(x => x.Clone(It.IsAny<IHouse>()), Times.Never());
+        }
     }
 }
