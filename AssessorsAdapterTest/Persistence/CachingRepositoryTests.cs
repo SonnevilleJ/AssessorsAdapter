@@ -20,7 +20,7 @@ namespace AssessorsAdapterTest.Persistence
         }
 
         [TestMethod]
-        public void SavesToCache()
+        public void Save()
         {
             const int key = 1;
             const string value = "Hello";
@@ -28,7 +28,7 @@ namespace AssessorsAdapterTest.Persistence
             _cachingRepository.Save(key, value);
 
             _cacheMock.Verify(repo => repo.Save(key, value), Times.Once());
-            _masterMock.Verify(repo => repo.Save(It.IsAny<int>(), It.IsAny<string>()), Times.Never());
+            _masterMock.Verify(repo => repo.Save(key, value), Times.Once());
         }
 
         [TestMethod]

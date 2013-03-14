@@ -14,6 +14,7 @@
         public void Save(TKey key, TValue value)
         {
             _cache.Save(key, value);
+            _master.Save(key, value);
         }
 
         public void Delete(TKey key)
