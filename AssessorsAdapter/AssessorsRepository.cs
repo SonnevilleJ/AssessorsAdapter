@@ -38,5 +38,15 @@ namespace AssessorsAdapter
         {
             throw new System.NotImplementedException();
         }
+
+        public IHouse Fetch(string key)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Empty()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

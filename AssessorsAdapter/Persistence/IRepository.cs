@@ -6,5 +6,7 @@
         void Delete(TKey key);
         bool ContainsValue(TValue value);
         bool ContainsKey(TKey key);
+        IHouse Fetch(TKey key);
+        void Empty();
     }
 }

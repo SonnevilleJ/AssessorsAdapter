@@ -32,5 +32,15 @@
         {
             return _cache.ContainsKey(key) || _master.ContainsKey(key);
         }
+
+        public IHouse Fetch(TKey key)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Empty()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
