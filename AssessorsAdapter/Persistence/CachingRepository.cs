@@ -23,13 +23,12 @@
 
         public bool ContainsValue(TValue value)
         {
-            throw new System.NotImplementedException();
+            return _cache.ContainsValue(value) || _master.ContainsValue(value);
         }
 
         public bool ContainsKey(TKey key)
         {
-            var cacheContains = _cache.ContainsKey(key);
-            return cacheContains || _master.ContainsKey(key);
+            return _cache.ContainsKey(key) || _master.ContainsKey(key);
         }
     }
 }
