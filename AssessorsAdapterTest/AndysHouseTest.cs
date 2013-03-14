@@ -20,7 +20,7 @@ namespace AssessorsAdapterTest
             housePage.LoadHtml(Resources._9260_NW_36th_St);
             var taxPage = new HtmlDocument();
             taxPage.LoadHtml(Resources._9260_NW_36th_St___taxes);
-            _andysHouse = HouseFactory.ConstructHouse(housePage, taxPage);
+            _andysHouse = new HouseFactory().ConstructHouse(housePage, taxPage);
         }
 
         [TestMethod]

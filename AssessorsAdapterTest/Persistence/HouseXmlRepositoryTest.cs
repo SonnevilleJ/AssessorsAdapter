@@ -12,6 +12,7 @@ namespace AssessorsAdapterTest.Persistence
     [TestClass]
     public class HouseXmlRepositoryTest
     {
+        private readonly HouseFactory _factory = new HouseFactory();
         private IHouse _testHouse;
 
         [TestInitialize]
@@ -21,7 +22,7 @@ namespace AssessorsAdapterTest.Persistence
             housePage.LoadHtml(Resources._6324_Wilcot_Ct);
             var taxPage = new HtmlDocument();
             taxPage.LoadHtml(Resources._6324_Wilcot_Ct___taxes);
-            _testHouse = HouseFactory.ConstructHouse(housePage, taxPage);
+            _testHouse = _factory.ConstructHouse(housePage, taxPage);
         }
 
         [TestMethod]
@@ -68,7 +69,7 @@ namespace AssessorsAdapterTest.Persistence
             try
             {
                 var repo = GetTestRepo(path);
-                var house = HouseFactory.Clone(_testHouse);
+                var house = _factory.Clone(_testHouse);
 
                 repo.Save(house.Address, house);
 
@@ -109,7 +110,7 @@ namespace AssessorsAdapterTest.Persistence
 
             repo.Delete(_testHouse.Address);
 
-            Assert.IsFalse(HouseIsFoundInPath(repo.StoragePath, HouseFactory.Clone(_testHouse)));
+            Assert.IsFalse(HouseIsFoundInPath(repo.StoragePath, _factory.Clone(_testHouse)));
         }
 
         [TestMethod]

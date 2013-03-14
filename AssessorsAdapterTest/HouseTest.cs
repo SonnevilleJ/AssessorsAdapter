@@ -8,6 +8,7 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class HouseTest : HouseTestBase
     {
+        private readonly HouseFactory _factory = new HouseFactory();
         private IHouse _testHouse;
         private const string Address = "6324 Wilcot Ct";
         private const string City = "Johnston";
@@ -27,7 +28,7 @@ namespace AssessorsAdapterTest
             housePage.LoadHtml(Resources._6324_Wilcot_Ct);
             var taxPage = new HtmlDocument();
             taxPage.LoadHtml(Resources._6324_Wilcot_Ct___taxes);
-            _testHouse = HouseFactory.ConstructHouse(housePage, taxPage);
+            _testHouse = _factory.ConstructHouse(housePage, taxPage);
         }
 
         [TestMethod]
@@ -105,7 +106,7 @@ namespace AssessorsAdapterTest
         [TestMethod]
         public void ConvertionEqualsOriginal()
         {
-            var house = HouseFactory.Clone(_testHouse);
+            var house = _factory.Clone(_testHouse);
 
             Assert.AreEqual(_testHouse, house);
         }

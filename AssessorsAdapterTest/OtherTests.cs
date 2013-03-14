@@ -7,6 +7,7 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class OtherTests : HouseTestBase
     {
+        private readonly HouseFactory _factory = new HouseFactory();
         private static IHouse _noResultsHouse;
         private static IHouse _duplicateAddresses;
 
@@ -15,11 +16,11 @@ namespace AssessorsAdapterTest
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(Resources._123_Fake_St);
-            _noResultsHouse = HouseFactory.ConstructHouse(doc);
+            _noResultsHouse = _factory.ConstructHouse(doc);
 
             doc = new HtmlDocument();
             doc.LoadHtml(Resources._9823_Laguna_Dr);
-            _duplicateAddresses = HouseFactory.ConstructHouse(doc);
+            _duplicateAddresses = _factory.ConstructHouse(doc);
         }
 
         [TestMethod]

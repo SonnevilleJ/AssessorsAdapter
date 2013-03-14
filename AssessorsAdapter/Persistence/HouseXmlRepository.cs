@@ -6,6 +6,8 @@ namespace AssessorsAdapter.Persistence
 {
     public class HouseXmlRepository : IRepository<string, IHouse>
     {
+        private readonly HouseFactory _factory = new HouseFactory();
+
         public HouseXmlRepository(string path)
         {
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -18,7 +20,7 @@ namespace AssessorsAdapter.Persistence
         public void Save(string key, IHouse value)
         {
             if (value.GetType().Name != typeof (House).Name)
-                value = HouseFactory.Clone(value);
+                value = _factory.Clone(value);
 
             var address = key;
             var serialized = XmlSerializer.SerializeToXml(value);
