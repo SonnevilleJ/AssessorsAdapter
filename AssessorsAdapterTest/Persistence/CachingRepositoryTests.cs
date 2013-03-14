@@ -78,5 +78,28 @@ namespace AssessorsAdapterTest.Persistence
             _cacheMock.Verify(repo => repo.ContainsValue(value), Times.Once());
             _masterMock.Verify(repo => repo.ContainsValue(value), Times.Once());
         }
+
+        [TestMethod]
+        public void DeleteWhenCacheDoesContain()
+        {
+            const int key = 1;
+
+            _cachingRepository.Delete(key);
+
+            _cacheMock.Verify(repo => repo.Delete(key), Times.Once());
+            _masterMock.Verify(repo => repo.Delete(key), Times.Once());
+        }
+
+        [TestMethod]
+        public void DeleteWhenCacheDoesNotContain()
+        {
+            const int key = 1;
+            _cacheMock.Setup(repo => repo.ContainsKey(key)).Returns(true);
+
+            _cachingRepository.Delete(key);
+
+            _cacheMock.Verify(repo => repo.Delete(key), Times.Once());
+            _masterMock.Verify(repo => repo.Delete(key), Times.Once());
+        }
     }
 }

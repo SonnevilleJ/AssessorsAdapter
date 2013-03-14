@@ -18,7 +18,8 @@
 
         public void Delete(TKey key)
         {
-            throw new System.NotImplementedException();
+            _cache.Delete(key);
+            _master.Delete(key);
         }
 
         public bool ContainsValue(TValue value)
