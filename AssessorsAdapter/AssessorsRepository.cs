@@ -22,7 +22,11 @@ namespace AssessorsAdapter
 
         public void Delete(string key)
         {
-            throw new System.NotImplementedException();
+        }
+
+        public void Delete(IHouse house)
+        {
+            Delete(house.Address);
         }
 
         public bool ContainsValue(IHouse value)
