@@ -12,7 +12,7 @@ namespace AssessorsAdapterTest.Persistence
     [TestClass]
     public class HouseXmlRepositoryTest
     {
-        private readonly IHouseFactory _factory = new HouseFactory();
+        private readonly HouseFactory _factory = new HouseFactory();
         private IHouse _testHouse;
 
         [TestInitialize]

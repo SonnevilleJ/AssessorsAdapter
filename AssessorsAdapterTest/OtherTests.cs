@@ -7,7 +7,7 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class OtherTests : HouseTestBase
     {
-        private readonly IHouseFactory _factory = new HouseFactory();
+        private readonly HouseFactory _factory = new HouseFactory();
         private static IHouse _noResultsHouse;
         private static IHouse _duplicateAddresses;
 
