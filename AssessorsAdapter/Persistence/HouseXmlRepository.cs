@@ -6,7 +6,7 @@ namespace AssessorsAdapter.Persistence
 {
     public class HouseXmlRepository : IRepository<string, IHouse>
     {
-        private readonly HouseFactory _factory = new HouseFactory();
+        private readonly IHouseFactory _factory = new HouseFactory();
 
         public HouseXmlRepository(string path)
         {

@@ -8,7 +8,7 @@ namespace AssessorsAdapterTest
     [TestClass]
     public class HouseTest : HouseTestBase
     {
-        private readonly HouseFactory _factory = new HouseFactory();
+        private readonly IHouseFactory _factory = new HouseFactory();
         private IHouse _testHouse;
         private const string Address = "6324 Wilcot Ct";
         private const string City = "Johnston";

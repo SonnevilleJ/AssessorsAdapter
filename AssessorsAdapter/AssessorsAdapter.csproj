@@ -42,9 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssessorsRepository.cs" />
     <Compile Include="HouseFactory.cs" />
     <Compile Include="HouseBase.cs" />
     <Compile Include="IHouse.cs" />
+    <Compile Include="IHouseFactory.cs" />
     <Compile Include="Persistence\CachingRepository.cs" />
     <Compile Include="Persistence\HouseXmlRepository.cs" />
     <Compile Include="Persistence\IRepository.cs" />

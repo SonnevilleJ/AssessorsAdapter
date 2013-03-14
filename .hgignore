@@ -9,4 +9,3 @@ _ReSharper.*
 access.log
 error.log
 *.DotSettings
-packages/*/*
