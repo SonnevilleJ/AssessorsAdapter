@@ -31,17 +31,17 @@ namespace AssessorsAdapter
 
         public bool ContainsValue(IHouse value)
         {
-            throw new System.NotImplementedException();
+            return ContainsKey(value.Address);
         }
 
         public bool ContainsKey(string key)
         {
-            throw new System.NotImplementedException();
+            return Fetch(key) != null;
         }
 
         public IHouse Fetch(string key)
         {
-            throw new System.NotImplementedException();
+            return _houseFactory.ConstructHouse(key);
         }
 
         public void Empty()
