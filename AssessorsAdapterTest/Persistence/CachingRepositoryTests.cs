@@ -106,7 +106,6 @@ namespace AssessorsAdapterTest.Persistence
         public void FetchChecksCacheFirst()
         {
             const int key = 1;
-            const string value = "John";
             _cacheMock.Setup(repo => repo.ContainsKey(key)).Returns(true);
 
             _testObject.Fetch(key);

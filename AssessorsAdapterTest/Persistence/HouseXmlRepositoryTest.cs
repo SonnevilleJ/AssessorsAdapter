@@ -100,7 +100,6 @@ namespace AssessorsAdapterTest.Persistence
         public void DeleteExisting()
         {
             var repo = GetTestRepo();
-
             repo.Save(_testHouse.Address, _testHouse);
 
             repo.Delete(_testHouse.Address);
@@ -112,13 +111,11 @@ namespace AssessorsAdapterTest.Persistence
         public void FetchReturnsSame()
         {
             var repo = GetTestRepo();
+            repo.Save(_testHouse.Address, _testHouse);
 
-            var house = _testHouse;
-            var address = house.Address;
-            repo.Save(address, house);
-
-            var value = repo.Fetch(address);
-            Assert.AreEqual(house, value);
+            var value = repo.Fetch(_testHouse.Address);
+            
+            Assert.AreEqual(_testHouse, value);
         }
 
         [TestMethod]
@@ -141,7 +138,7 @@ namespace AssessorsAdapterTest.Persistence
 
         #region Private Methods
 
-        private string GetUniqueTempPath()
+        private static string GetUniqueTempPath()
         {
             return String.Format("{0}{1}", Path.GetTempPath(), Guid.NewGuid());
         }
