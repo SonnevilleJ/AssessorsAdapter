@@ -6,8 +6,6 @@ namespace AssessorsAdapter.Persistence
 {
     public class HouseXmlRepository : IRepository<string, IHouse>
     {
-        private readonly IHouseFactory _factory = new HouseFactory();
-
         public HouseXmlRepository(string path)
         {
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -15,17 +13,11 @@ namespace AssessorsAdapter.Persistence
             StoragePath = path;
         }
 
-        public string StoragePath { get; private set; }
-
         public void Save(string key, IHouse value)
         {
-            if (value.GetType().Name != typeof (House).Name)
-                value = _factory.Clone(value);
-
-            var address = key;
             var serialized = XmlSerializer.SerializeToXml(value);
 
-            var fullPath = FormatFilename(address);
+            var fullPath = FormatFilename(key);
             File.WriteAllText(fullPath, serialized);
         }
 
@@ -53,6 +45,16 @@ namespace AssessorsAdapter.Persistence
             }
         }
 
+        public void Empty()
+        {
+            foreach (var key in StoredKeys)
+            {
+                Delete(key);
+            }
+        }
+
+        public string StoragePath { get; private set; }
+
         private string FormatFilename(string address)
         {
             return string.Format("{0}{1}{2}{3}", StoragePath, Path.DirectorySeparatorChar, address, ".xml");
@@ -64,14 +66,6 @@ namespace AssessorsAdapter.Persistence
             {
                 var files = Directory.EnumerateFiles(StoragePath, "*.xml", SearchOption.TopDirectoryOnly);
                 return (files.Select(file => new FileInfo(file)).Select(fi => fi.Name).Select(fileName => fileName.Replace(".xml", string.Empty))).ToList();
-            }
-        }
-
-        public void Empty()
-        {
-            foreach (var key in StoredKeys)
-            {
-                Delete(key);
             }
         }
     }
