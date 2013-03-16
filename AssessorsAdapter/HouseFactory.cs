@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Text;
-using AssessorsAdapter.Persistence;
 using HtmlAgilityPack;
 
 namespace AssessorsAdapter
@@ -30,7 +29,7 @@ namespace AssessorsAdapter
 
         public IHouse ConstructHouse(HtmlDocument housePage, HtmlDocument taxPage)
         {
-            var house = new House
+            var house = new HouseBase
                 {
                     NoRecordsFound = CheckNoResultsFound(housePage),
                     MultipleRecordsFound = CheckMoreThanOneResultFound(housePage)
@@ -53,9 +52,25 @@ namespace AssessorsAdapter
             return house;
         }
 
-        public IHouse Clone(IHouse assessorsHouse)
+        public IHouse Clone(IHouse house)
         {
-            return new House(assessorsHouse);
+            return new HouseBase
+                {
+                    HomeUrl = house.HomeUrl,
+                    Address = house.Address,
+                    City = house.City,
+                    Zip = house.Zip,
+                    AssessmentTotal = house.AssessmentTotal,
+                    Land = house.Land,
+                    MultipleRecordsFound = house.MultipleRecordsFound,
+                    NoRecordsFound = house.NoRecordsFound,
+                    TSFLA = house.TSFLA,
+                    DataAvailable = house.DataAvailable,
+                    BsmtArea = house.BsmtArea,
+                    YearBuilt = house.YearBuilt,
+                    Fireplaces = house.Fireplaces,
+                    GrossTaxes = house.GrossTaxes
+                };
         }
 
         private string BuildHomeUrl(string address, string city, bool photo, bool map)
