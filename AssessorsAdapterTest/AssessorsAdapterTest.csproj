@@ -46,6 +46,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="Utilities">
+      <HintPath>..\packages\Utilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -74,10 +77,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj">
-      <Project>{6E47E129-AEC0-4A6A-AA52-272860AF6302}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AssessorsAdapter\AssessorsAdapter.csproj">
       <Project>{7AB1D339-3B17-4592-A471-A3F56C0E3FE0}</Project>
       <Name>AssessorsAdapter</Name>
