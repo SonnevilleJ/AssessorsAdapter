@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace AssessorsAdapter
 {
@@ -8,8 +7,6 @@ namespace AssessorsAdapter
 #endif
     public class House : IHouse
     {
-        public string HomeUrl { get; set; }
-
         public string Address { get; set; }
 
         public string City { get; set; }
@@ -50,8 +47,7 @@ namespace AssessorsAdapter
             if (ReferenceEquals(this, other))
                 return true;
 
-            return HomeUrl == other.HomeUrl &&
-                   Address == other.Address &&
+            return Address == other.Address &&
                    City == other.City &&
                    Zip == other.Zip &&
                    AssessmentTotal == other.AssessmentTotal &&
@@ -64,11 +60,6 @@ namespace AssessorsAdapter
                    YearBuilt == other.YearBuilt &&
                    Fireplaces == other.Fireplaces &&
                    GrossTaxes == other.GrossTaxes;
-        }
-
-        public void OpenWebPage()
-        {
-            Process.Start("chrome", HomeUrl);
         }
 
         /// <summary>
@@ -93,8 +84,7 @@ namespace AssessorsAdapter
         {
             unchecked
             {
-                var hashCode = (HomeUrl != null ? HomeUrl.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Address != null ? Address.GetHashCode() : 0);
+                var hashCode = (Address != null ? Address.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (City != null ? City.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Zip != null ? Zip.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ AssessmentTotal;

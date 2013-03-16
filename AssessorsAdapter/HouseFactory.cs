@@ -56,7 +56,6 @@ namespace AssessorsAdapter
         {
             return new House
                 {
-                    HomeUrl = house.HomeUrl,
                     Address = house.Address,
                     City = house.City,
                     Zip = house.Zip,

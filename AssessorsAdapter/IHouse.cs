@@ -4,7 +4,6 @@ namespace AssessorsAdapter
 {
     public interface IHouse : IEquatable<IHouse>
     {
-        string HomeUrl { get; set; }
         string Address { get; set; }
         string City { get; set; }
         string Zip { get; set; }
@@ -18,6 +17,5 @@ namespace AssessorsAdapter
         int YearBuilt { get; set; }
         int Fireplaces { get; set; }
         decimal GrossTaxes { get; set; }
-        void OpenWebPage();
     }
 }

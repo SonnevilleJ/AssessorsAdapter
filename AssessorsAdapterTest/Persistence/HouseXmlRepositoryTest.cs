@@ -12,26 +12,14 @@ namespace AssessorsAdapterTest.Persistence
     [TestClass]
     public class HouseXmlRepositoryTest
     {
-        private static HtmlDocument _housePage;
-        private static HtmlDocument _taxPage;
+        private const string IndexFilename = "Index";
         private readonly HouseFactory _factory = new HouseFactory();
-        private IHouse _testHouse;
         private string _path;
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            _housePage = new HtmlDocument();
-            _housePage.LoadHtml(Resources._6324_Wilcot_Ct);
-            _taxPage = new HtmlDocument();
-            _taxPage.LoadHtml(Resources._6324_Wilcot_Ct___taxes);
-        }
 
         [TestInitialize]
         public void Initialize()
         {
             _path = GetUniqueTempPath();
-            _testHouse = _factory.ConstructHouse(_housePage, _taxPage);
         }
 
         [TestCleanup]
@@ -62,18 +50,30 @@ namespace AssessorsAdapterTest.Persistence
             var repo = GetTestRepo();
             var house = new House();
 
-            Assert.IsFalse(repo.ContainsValue(house));
+            Assert.IsFalse(repo.ContainsKey(house.Address));
         }
 
         [TestMethod]
         public void SaveSerializesInPath()
         {
-                var repo = GetTestRepo();
-                var house = _factory.Clone(_testHouse);
+            var repo = GetTestRepo();
+            var house = _factory.Clone(House1);
 
-                repo.Save(house.Address, house);
+            repo.Save(house.Address, house);
 
-                Assert.IsTrue(HouseIsFoundInPath(_path, house));
+            Assert.IsTrue(HouseIsFound(house));
+        }
+
+        [TestMethod]
+        public void SaveSerializesUpdatedIndex()
+        {
+            var repo = GetTestRepo();
+            var house = House1;
+
+            var key = house.Address;
+            repo.Save(key, house);
+
+            Assert.IsTrue(IndexContainsKey(key));
         }
 
         [TestMethod]
@@ -81,9 +81,9 @@ namespace AssessorsAdapterTest.Persistence
         {
             var repo = GetTestRepo();
 
-            repo.Save(_testHouse.Address, _testHouse);
+            repo.Save(House1.Address, House1);
 
-            Assert.IsTrue(repo.ContainsValue(_testHouse));
+            Assert.IsTrue(repo.ContainsValue(House1));
         }
 
         [TestMethod]
@@ -91,52 +91,75 @@ namespace AssessorsAdapterTest.Persistence
         {
             var repo = GetTestRepo();
 
-            repo.Save(_testHouse.Address, _testHouse);
+            repo.Save(House1.Address, House1);
 
-            Assert.IsTrue(repo.ContainsKey(_testHouse.Address));
+            Assert.IsTrue(repo.ContainsKey(House1.Address));
         }
 
         [TestMethod]
         public void DeleteExisting()
         {
             var repo = GetTestRepo();
-            repo.Save(_testHouse.Address, _testHouse);
+            repo.Save(House1.Address, House1);
 
-            repo.Delete(_testHouse.Address);
+            repo.Delete(House1.Address);
 
-            Assert.IsFalse(HouseIsFoundInPath(repo.StoragePath, _factory.Clone(_testHouse)));
+            Assert.IsFalse(HouseIsFound(_factory.Clone(House1)));
         }
 
         [TestMethod]
         public void FetchReturnsSame()
         {
             var repo = GetTestRepo();
-            repo.Save(_testHouse.Address, _testHouse);
+            repo.Save(House1.Address, House1);
 
-            var value = repo.Fetch(_testHouse.Address);
-            
-            Assert.AreEqual(_testHouse, value);
+            var value = repo.Fetch(House1.Address);
+
+            Assert.AreEqual(House1, value);
         }
 
         [TestMethod]
         public void EmptyClearsSerializedObjects()
         {
-                var repo = GetTestRepo();
+            var repo = GetTestRepo();
+            repo.Save(House1.Address, House1);
 
-                if (new DirectoryInfo(_path).GetFiles().Length != 0) Assert.Inconclusive();
+            repo.Empty();
 
-                repo.Save(_testHouse.Address, _testHouse);
+            Assert.AreEqual(0, HousesFound().Count());
+        }
 
-                var houses = HousesFoundInPath(repo.StoragePath);
-                if (houses.Count() != 1) Assert.Inconclusive();
+        [TestMethod]
+        public void EmptyClearsSerializedIndex()
+        {
+            var repo = GetTestRepo();
+            repo.Save(House1.Address, House1);
 
-                repo.Empty();
+            repo.Empty();
 
-                houses = HousesFoundInPath(repo.StoragePath);
-                Assert.AreEqual(0, houses.Count());
+            Assert.IsFalse(File.Exists(GetIndexFilePath()));
         }
 
         #region Private Methods
+
+        private IHouse House1
+        {
+            get { return GetHouse(Resources._6324_Wilcot_Ct, Resources._6324_Wilcot_Ct___taxes); }
+        }
+
+        private IHouse House2
+        {
+            get { return GetHouse(Resources._9260_NW_36th_St, Resources._9260_NW_36th_St___taxes); }
+        }
+
+        private IHouse GetHouse(string houseHtml, string taxesHtml)
+        {
+            var houseDoc = new HtmlDocument();
+            houseDoc.LoadHtml(houseHtml);
+            var taxesDoc = new HtmlDocument();
+            taxesDoc.LoadHtml(taxesHtml);
+            return _factory.ConstructHouse(houseDoc, taxesDoc);
+        }
 
         private static string GetUniqueTempPath()
         {
@@ -148,16 +171,37 @@ namespace AssessorsAdapterTest.Persistence
             return new XmlRepository<IHouse>(_path);
         }
 
-        private static IEnumerable<string> FilesInPath(string path)
+        private bool IndexContainsKey(string key)
         {
-            return Directory.GetFiles(path, "*.xml");
+            var index = File.ReadAllLines(GetIndexFilePath());
+            return index.Contains(key);
         }
 
-        private static IList<House> HousesFoundInPath(string path)
+        private string GetIndexFilePath()
         {
-            var files = FilesInPath(path);
+            return string.Format("{0}{1}{2}{3}", _path, Path.DirectorySeparatorChar, IndexFilename, ".xml");
+        }
+
+        private IEnumerable<string> FilesFound()
+        {
+            return Directory.GetFiles(_path, "*.xml");
+        }
+
+        private IEnumerable<string> GetXmlFiles()
+        {
+            var xmlFiles = FilesFound().Where(file =>
+                {
+                    var extension = Path.GetExtension(file);
+                    return extension != null && extension.ToLower() == ".xml";
+                });
+            return xmlFiles;
+        }
+
+        private IList<House> HousesFound()
+        {
+            var files = FilesFound();
             var list = new List<House>();
-            foreach (var file in files)
+            foreach (var file in files.Where(f => f != IndexFilename))
             {
                 string contents;
                 using (var reader = new StreamReader(file))
@@ -170,10 +214,10 @@ namespace AssessorsAdapterTest.Persistence
             return list;
         }
 
-        private static bool HouseIsFoundInPath(string path, IEquatable<IHouse> house)
+        private bool HouseIsFound(IHouse house)
         {
             var houseFound = false;
-            foreach (var filename in GetXmlFiles(path))
+            foreach (var filename in GetXmlFiles())
             {
                 using (var streamReader = new StreamReader(filename))
                 {
@@ -193,15 +237,6 @@ namespace AssessorsAdapterTest.Persistence
                 }
             }
             return houseFound;
-        }
-
-        private static IEnumerable<string> GetXmlFiles(string path)
-        {
-            return FilesInPath(path).Where(file =>
-                {
-                    var extension = Path.GetExtension(file);
-                    return extension != null && extension.ToLower() == ".xml";
-                });
         }
 
         #endregion

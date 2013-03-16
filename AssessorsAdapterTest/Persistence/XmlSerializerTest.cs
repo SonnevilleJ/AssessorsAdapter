@@ -25,7 +25,17 @@ namespace AssessorsAdapterTest.Persistence
             var serializedObject = XmlSerializer.SerializeToXml(list);
             var deserializedObject = XmlSerializer.DeserializeFromXml<List<int>>(serializedObject);
 
-            CollectionAssert.AreEquivalent(list.ToList(), deserializedObject.ToList());
+            CollectionAssert.AreEquivalent(list, deserializedObject);
+        }
+
+        [TestMethod]
+        public void SerializeListOfString()
+        {
+            var list = new List<string> {"one", "two", "three"};
+            var serializedObject = XmlSerializer.SerializeToXml(list);
+            var deserializedObject = XmlSerializer.DeserializeFromXml<List<string>>(serializedObject);
+
+            CollectionAssert.AreEquivalent(list, deserializedObject);
         }
     }
 }
