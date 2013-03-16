@@ -48,7 +48,7 @@
     <Compile Include="IHouse.cs" />
     <Compile Include="IHouseFactory.cs" />
     <Compile Include="Persistence\CachingRepository.cs" />
-    <Compile Include="Persistence\HouseXmlRepository.cs" />
+    <Compile Include="Persistence\XmlRepository.cs" />
     <Compile Include="Persistence\IRepository.cs" />
     <Compile Include="Persistence\Repository.cs" />
     <Compile Include="Persistence\XmlSerializer.cs" />

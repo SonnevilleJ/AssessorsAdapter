@@ -143,9 +143,9 @@ namespace AssessorsAdapterTest.Persistence
             return String.Format("{0}{1}", Path.GetTempPath(), Guid.NewGuid());
         }
 
-        private HouseXmlRepository GetTestRepo()
+        private XmlRepository<IHouse> GetTestRepo()
         {
-            return new HouseXmlRepository(_path);
+            return new XmlRepository<IHouse>(_path);
         }
 
         private static IEnumerable<string> FilesInPath(string path)

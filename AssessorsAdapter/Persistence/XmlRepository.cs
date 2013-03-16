@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace AssessorsAdapter.Persistence
 {
-    public class HouseXmlRepository : IRepository<string, IHouse>
+    public class XmlRepository<T> : IRepository<string, T>
     {
-        public HouseXmlRepository(string path)
+        public XmlRepository(string path)
         {
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
             StoragePath = path;
         }
 
-        public void Save(string key, IHouse value)
+        public void Save(string key, T value)
         {
             var serialized = XmlSerializer.SerializeToXml(value);
 
@@ -27,9 +27,9 @@ namespace AssessorsAdapter.Persistence
             if (File.Exists(filename)) File.Delete(filename);
         }
 
-        public bool ContainsValue(IHouse value)
+        public bool ContainsValue(T value)
         {
-            return StoredKeys.Contains(value.Address);
+            return StoredKeys.Contains(((IHouse)value).Address);
         }
 
         public bool ContainsKey(string key)
@@ -37,11 +37,11 @@ namespace AssessorsAdapter.Persistence
             return StoredKeys.Contains(key);
         }
 
-        public IHouse Fetch(string key)
+        public T Fetch(string key)
         {
             using (var streamReader = new StreamReader(FormatFilename(key)))
             {
-                return XmlSerializer.DeserializeFromXml<House>(streamReader.ReadToEnd());
+                return XmlSerializer.DeserializeFromXml<T>(streamReader.ReadToEnd());
             }
         }
 
