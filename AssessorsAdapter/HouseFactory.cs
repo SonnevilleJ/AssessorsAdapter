@@ -73,11 +73,6 @@ namespace AssessorsAdapter
                 };
         }
 
-        private string BuildHomeUrl(string address, string city, bool photo, bool map)
-        {
-            return String.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : String.Empty, map ? "checked" : String.Empty);
-        }
-
         #region Error checking
 
         private bool CheckNoResultsFound(HtmlDocument doc)
@@ -177,6 +172,11 @@ namespace AssessorsAdapter
         #endregion
 
         #region Formatters
+
+        private string BuildHomeUrl(string address, string city, bool photo, bool map)
+        {
+            return String.Format(QueryUrl, Uri.EscapeUriString(address), city.ToUpper(), photo ? "checked" : String.Empty, map ? "checked" : String.Empty);
+        }
 
         private int FormatInt(string innerText)
         {

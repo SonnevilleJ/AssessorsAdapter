@@ -33,14 +33,14 @@
             return _cache.ContainsKey(key) || _master.ContainsKey(key);
         }
 
-        public IHouse Fetch(TKey key)
+        public TValue Fetch(TKey key)
         {
-            throw new System.NotImplementedException();
+            return _cache.ContainsKey(key) ? _cache.Fetch(key) : _master.Fetch(key);
         }
 
         public void Empty()
         {
-            throw new System.NotImplementedException();
+            _cache.Empty();
         }
     }
 }
