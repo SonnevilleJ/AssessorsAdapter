@@ -29,7 +29,7 @@ namespace AssessorsAdapter
 
         public IHouse ConstructHouse(HtmlDocument housePage, HtmlDocument taxPage)
         {
-            var house = new HouseBase
+            var house = new House
                 {
                     NoRecordsFound = CheckNoResultsFound(housePage),
                     MultipleRecordsFound = CheckMoreThanOneResultFound(housePage)
@@ -54,7 +54,7 @@ namespace AssessorsAdapter
 
         public IHouse Clone(IHouse house)
         {
-            return new HouseBase
+            return new House
                 {
                     HomeUrl = house.HomeUrl,
                     Address = house.Address,

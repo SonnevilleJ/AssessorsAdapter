@@ -19,7 +19,7 @@ namespace AssessorsAdapter.Persistence
 
         public void Save(string key, IHouse value)
         {
-            if (value.GetType().Name != typeof (HouseBase).Name)
+            if (value.GetType().Name != typeof (House).Name)
                 value = _factory.Clone(value);
 
             var address = key;
@@ -49,7 +49,7 @@ namespace AssessorsAdapter.Persistence
         {
             using (var streamReader = new StreamReader(FormatFilename(key)))
             {
-                return XmlSerializer.DeserializeFromXml<HouseBase>(streamReader.ReadToEnd());
+                return XmlSerializer.DeserializeFromXml<House>(streamReader.ReadToEnd());
             }
         }
 

@@ -57,7 +57,7 @@ namespace AssessorsAdapterTest.Persistence
         {
             var path = Path.GetTempPath();
             var repo = new HouseXmlRepository(path);
-            var house = new HouseBase();
+            var house = new House();
 
             Assert.IsFalse(repo.ContainsValue(house));
         }
@@ -174,10 +174,10 @@ namespace AssessorsAdapterTest.Persistence
             return Directory.GetFiles(path, "*.xml");
         }
 
-        private static List<HouseBase> HousesFoundInPath(string path)
+        private static List<House> HousesFoundInPath(string path)
         {
             var files = FilesInPath(path);
-            var list = new List<HouseBase>();
+            var list = new List<House>();
             foreach (var file in files)
             {
                 string contents;
@@ -185,7 +185,7 @@ namespace AssessorsAdapterTest.Persistence
                 {
                     contents = reader.ReadToEnd();
                 }
-                var deserialized = XmlSerializer.DeserializeFromXml<HouseBase>(contents);
+                var deserialized = XmlSerializer.DeserializeFromXml<House>(contents);
                 list.Add(deserialized);
             }
             return list;

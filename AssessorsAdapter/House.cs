@@ -6,7 +6,7 @@ namespace AssessorsAdapter
 #if DEBUG
     [ClassInterface(ClassInterfaceType.AutoDual)]
 #endif
-    public class HouseBase : IHouse
+    public class House : IHouse
     {
         public string HomeUrl { get; set; }
 
