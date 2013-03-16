@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -7,7 +6,7 @@ namespace AssessorsAdapter.Persistence
 {
     public class XmlRepository<T> : IRepository<string, T>
     {
-        private const string _indexFile = "Index";
+        private const string IndexFile = "Index";
 
         public XmlRepository(string path)
         {
@@ -18,7 +17,7 @@ namespace AssessorsAdapter.Persistence
 
         public void Save(string key, T value)
         {
-            PersistValue(key, XmlSerializer.SerializeToXml(value));
+            PersistValue(key, value);
 
             PersistIndex();
         }
@@ -31,15 +30,7 @@ namespace AssessorsAdapter.Persistence
 
         public bool ContainsValue(T value)
         {
-            foreach (var key in StoredKeys)
-            {
-                var fetched = Fetch(key);
-                if (fetched.Equals(value))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return StoredKeys.Select(Fetch).Contains(value);
         }
 
         public bool ContainsKey(string key)
@@ -72,18 +63,16 @@ namespace AssessorsAdapter.Persistence
             }
         }
 
-        private void PersistValue(string key, string serialized)
+        private void PersistValue(string key, T value)
         {
             var fullPath = FormatValueFilename(key);
-            File.WriteAllText(fullPath, serialized);
+            File.WriteAllText(fullPath, XmlSerializer.SerializeToXml(value));
         }
 
         private T DepersistValue(string key)
         {
-            using (var streamReader = new StreamReader(FormatValueFilename(key)))
-            {
-                return XmlSerializer.DeserializeFromXml<T>(streamReader.ReadToEnd());
-            }
+            var fullPath = FormatValueFilename(key);
+            return XmlSerializer.DeserializeFromXml<T>(File.ReadAllText(fullPath));
         }
 
         private void PersistIndex()
@@ -93,7 +82,7 @@ namespace AssessorsAdapter.Persistence
 
         private string FormatIndexFilename()
         {
-            return string.Format("{0}{1}{2}{3}", StoragePath, Path.DirectorySeparatorChar, _indexFile, ".xml");
+            return string.Format("{0}{1}{2}{3}", StoragePath, Path.DirectorySeparatorChar, IndexFile, ".xml");
         }
 
         private string FormatValueFilename(string value)
