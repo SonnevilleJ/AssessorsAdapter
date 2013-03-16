@@ -38,7 +38,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -47,15 +46,16 @@
     <Compile Include="House.cs" />
     <Compile Include="IHouse.cs" />
     <Compile Include="IHouseFactory.cs" />
-    <Compile Include="Persistence\CachingRepository.cs" />
-    <Compile Include="Persistence\XmlRepository.cs" />
-    <Compile Include="Persistence\IRepository.cs" />
-    <Compile Include="Persistence\Repository.cs" />
-    <Compile Include="Persistence\XmlSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj">
+      <Project>{6E47E129-AEC0-4A6A-AA52-272860AF6302}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

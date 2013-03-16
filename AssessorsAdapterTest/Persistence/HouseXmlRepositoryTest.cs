@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AssessorsAdapter;
-using AssessorsAdapter.Persistence;
 using HtmlAgilityPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.Utilities.Persistence;
+using Sonneville.Utilities.Serialization;
 
 namespace AssessorsAdapterTest.Persistence
 {
@@ -197,7 +198,7 @@ namespace AssessorsAdapterTest.Persistence
             return xmlFiles;
         }
 
-        private IList<House> HousesFound()
+        private IEnumerable<House> HousesFound()
         {
             var files = FilesFound();
             var list = new List<House>();

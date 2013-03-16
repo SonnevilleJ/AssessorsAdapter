@@ -1,7 +1,7 @@
 ﻿using AssessorsAdapter;
-using AssessorsAdapter.Persistence;
 using HtmlAgilityPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.Utilities.Serialization;
 
 namespace AssessorsAdapterTest
 {

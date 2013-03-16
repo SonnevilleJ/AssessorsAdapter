@@ -1,4 +1,4 @@
-﻿using AssessorsAdapter.Persistence;
+﻿using Sonneville.Utilities.Persistence;
 
 namespace AssessorsAdapter
 {
