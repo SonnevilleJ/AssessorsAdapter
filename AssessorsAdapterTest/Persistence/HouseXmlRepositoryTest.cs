@@ -12,51 +12,54 @@ namespace AssessorsAdapterTest.Persistence
     [TestClass]
     public class HouseXmlRepositoryTest
     {
+        private static HtmlDocument _housePage;
+        private static HtmlDocument _taxPage;
         private readonly HouseFactory _factory = new HouseFactory();
         private IHouse _testHouse;
+        private string _path;
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            _housePage = new HtmlDocument();
+            _housePage.LoadHtml(Resources._6324_Wilcot_Ct);
+            _taxPage = new HtmlDocument();
+            _taxPage.LoadHtml(Resources._6324_Wilcot_Ct___taxes);
+        }
 
         [TestInitialize]
         public void Initialize()
         {
-            var housePage = new HtmlDocument();
-            housePage.LoadHtml(Resources._6324_Wilcot_Ct);
-            var taxPage = new HtmlDocument();
-            taxPage.LoadHtml(Resources._6324_Wilcot_Ct___taxes);
-            _testHouse = _factory.ConstructHouse(housePage, taxPage);
+            _path = GetUniqueTempPath();
+            _testHouse = _factory.ConstructHouse(_housePage, _taxPage);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            Directory.Delete(_path, true);
         }
 
         [TestMethod]
         public void PathTest()
         {
-            var path = Path.GetTempPath();
-            var repo = new HouseXmlRepository(path);
+            var repo = GetTestRepo();
 
-            Assert.AreEqual(path, repo.StoragePath);
+            Assert.AreEqual(_path, repo.StoragePath);
         }
 
         [TestMethod]
         public void PathCreatesDirectoryTest()
         {
-            var path = GetUniqueTempPath();
-            try
-            {
-                if (Directory.Exists(path)) Assert.Inconclusive();
+            var repo = GetTestRepo();
 
-                var repo = new HouseXmlRepository(path);
-
-                Assert.IsTrue(Directory.Exists(repo.StoragePath));
-            }
-            finally
-            {
-                Directory.Delete(path, true);
-            }
+            Assert.IsTrue(Directory.Exists(repo.StoragePath));
         }
 
         [TestMethod]
         public void ContainsWhenEmpty()
         {
-            var path = Path.GetTempPath();
-            var repo = new HouseXmlRepository(path);
+            var repo = GetTestRepo();
             var house = new House();
 
             Assert.IsFalse(repo.ContainsValue(house));
@@ -65,20 +68,12 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void SaveSerializesInPath()
         {
-            var path = GetUniqueTempPath();
-            try
-            {
-                var repo = GetTestRepo(path);
+                var repo = GetTestRepo();
                 var house = _factory.Clone(_testHouse);
 
                 repo.Save(house.Address, house);
 
-                Assert.IsTrue(HouseIsFoundInPath(path, house));
-            }
-            finally
-            {
-                Directory.Delete(path, true);
-            }
+                Assert.IsTrue(HouseIsFoundInPath(_path, house));
         }
 
         [TestMethod]
@@ -129,12 +124,9 @@ namespace AssessorsAdapterTest.Persistence
         [TestMethod]
         public void EmptyClearsSerializedObjects()
         {
-            var path = GetUniqueTempPath();
-            try
-            {
-                var repo = GetTestRepo(path);
+                var repo = GetTestRepo();
 
-                if (new DirectoryInfo(path).GetFiles().Length != 0) Assert.Inconclusive();
+                if (new DirectoryInfo(_path).GetFiles().Length != 0) Assert.Inconclusive();
 
                 repo.Save(_testHouse.Address, _testHouse);
 
@@ -145,28 +137,18 @@ namespace AssessorsAdapterTest.Persistence
 
                 houses = HousesFoundInPath(repo.StoragePath);
                 Assert.AreEqual(0, houses.Count());
-            }
-            finally
-            {
-                Directory.Delete(path, true);
-            }
         }
 
         #region Private Methods
 
-        private static string GetUniqueTempPath()
+        private string GetUniqueTempPath()
         {
             return String.Format("{0}{1}", Path.GetTempPath(), Guid.NewGuid());
         }
 
-        private static HouseXmlRepository GetTestRepo()
+        private HouseXmlRepository GetTestRepo()
         {
-            return GetTestRepo(GetUniqueTempPath());
-        }
-
-        private static HouseXmlRepository GetTestRepo(string path)
-        {
-            return new HouseXmlRepository(path);
+            return new HouseXmlRepository(_path);
         }
 
         private static IEnumerable<string> FilesInPath(string path)
@@ -174,7 +156,7 @@ namespace AssessorsAdapterTest.Persistence
             return Directory.GetFiles(path, "*.xml");
         }
 
-        private static List<House> HousesFoundInPath(string path)
+        private static IList<House> HousesFoundInPath(string path)
         {
             var files = FilesInPath(path);
             var list = new List<House>();
