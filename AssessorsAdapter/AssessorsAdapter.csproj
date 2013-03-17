@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssessorsRepository.cs" />
+    <Compile Include="HouseApp.cs" />
     <Compile Include="HouseFactory.cs" />
     <Compile Include="House.cs" />
     <Compile Include="IHouse.cs" />

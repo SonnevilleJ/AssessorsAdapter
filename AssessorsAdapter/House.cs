@@ -5,6 +5,7 @@ namespace AssessorsAdapter
 #if DEBUG
     [ClassInterface(ClassInterfaceType.AutoDual)]
 #endif
+    [ComVisible(true)]
     public class House : IHouse
     {
         public string Address { get; set; }

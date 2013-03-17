@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AndysHouseTest.cs" />
     <Compile Include="AssessorsRepositoryTest.cs" />
+    <Compile Include="HouseAppTest.cs" />
     <Compile Include="HouseTest.cs" />
     <Compile Include="HouseTestBase.cs" />
     <Compile Include="OtherTests.cs" />

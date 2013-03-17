@@ -6,6 +6,11 @@ namespace AssessorsAdapter
     {
         private readonly IHouseFactory _houseFactory;
 
+        public AssessorsRepository()
+            : this(new HouseFactory())
+        {
+        }
+
         public AssessorsRepository(IHouseFactory houseFactory)
         {
             _houseFactory = houseFactory;
