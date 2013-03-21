@@ -41,7 +41,7 @@ namespace AssessorsAdapterTest
         private HouseApp GetTestObject()
         {
             var testObject = new HouseApp();
-            testObject.Initialize3(_masterRepositoryMock.Object);
+            testObject.Initialize_3(_masterRepositoryMock.Object);
             return testObject;
         }
 

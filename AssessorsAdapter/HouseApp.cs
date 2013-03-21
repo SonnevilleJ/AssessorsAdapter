@@ -14,15 +14,15 @@ namespace AssessorsAdapter
 
         public void Initialize()
         {
-            Initialize3(new AssessorsRepository());
+            Initialize_3(new AssessorsRepository());
         }
 
-        public void Initialize2(string path)
+        public void Initialize_2(string path)
         {
-            Initialize3(new CachingRepository<string, IHouse>(new AssessorsRepository(), new XmlRepository<IHouse>(path)));
+            Initialize_3(new CachingRepository<string, IHouse>(new AssessorsRepository(), new XmlRepository<IHouse>(path)));
         }
 
-        public void Initialize3(IRepository<string, IHouse> repository)
+        public void Initialize_3(IRepository<string, IHouse> repository)
         {
             Repository = repository;
         }
