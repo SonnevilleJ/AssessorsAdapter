@@ -121,6 +121,9 @@
   <data name="_123_Fake_St" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\123 Fake St.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="_4624_Tamara_Ln" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\4624 Tamara Ln.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="_6324_Wilcot_Ct" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\6324 Wilcot Ct.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

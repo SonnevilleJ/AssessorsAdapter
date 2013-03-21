@@ -10,6 +10,7 @@ namespace AssessorsAdapterTest
         private readonly HouseFactory _factory = new HouseFactory();
         private static IHouse _noResultsHouse;
         private static IHouse _duplicateAddresses;
+        private static IHouse _missingFireplaces;
 
         [TestInitialize]
         public void Initialize()
@@ -21,6 +22,10 @@ namespace AssessorsAdapterTest
             doc = new HtmlDocument();
             doc.LoadHtml(Resources._9823_Laguna_Dr);
             _duplicateAddresses = _factory.ConstructHouse(doc);
+
+            doc = new HtmlDocument();
+            doc.LoadHtml(Resources._4624_Tamara_Ln);
+            _missingFireplaces = _factory.ConstructHouse(doc);
         }
 
         [TestMethod]
@@ -45,6 +50,12 @@ namespace AssessorsAdapterTest
         public void DuplicateAddressesDataAvailable()
         {
             Assert.IsFalse(_duplicateAddresses.DataAvailable);
+        }
+
+        [TestMethod]
+        public void MissingFireplacesTag()
+        {
+            Assert.AreEqual(0, _missingFireplaces.Fireplaces);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -135,9 +136,13 @@ namespace AssessorsAdapter
 
         private string ParseResidenceProperty(HtmlDocument document, string nodeName)
         {
-            var htmlNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == nodeName);
+            var strongNodes = document.DocumentNode.Descendants("strong").Where(node => node.InnerText == nodeName).ToArray();
+            if (!strongNodes.Any()) return 0.ToString(CultureInfo.InvariantCulture);
+
+            var htmlNode = strongNodes.First();
             var parentNode = htmlNode.ParentNode;
             var property = parentNode.NextSibling.NextSibling.InnerText;
+
             return property;
         }
 
