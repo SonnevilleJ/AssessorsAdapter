@@ -19,7 +19,7 @@ namespace AssessorsAdapterTest
         private const int BsmtArea = 1141;
         private const int YearBuilt = 2004;
         private const int Fireplaces = 1;
-        private const decimal Taxes = 5875.00m;
+        private const double Taxes = 5875.00;
 
         [TestInitialize]
         public void Initialize()

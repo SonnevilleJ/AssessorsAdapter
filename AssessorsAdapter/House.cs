@@ -32,7 +32,7 @@ namespace AssessorsAdapter
 
         public int Fireplaces { get; set; }
 
-        public decimal GrossTaxes { get; set; }
+        public double GrossTaxes { get; set; }
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.

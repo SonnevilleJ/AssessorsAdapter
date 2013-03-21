@@ -135,10 +135,10 @@ namespace AssessorsAdapter
 
         private string ParseResidenceProperty(HtmlDocument document, string nodeName)
         {
-            var tsflaNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == nodeName);
-            var tsflaTdNode = tsflaNode.ParentNode;
-            var tsfla = tsflaTdNode.NextSibling.NextSibling.InnerText;
-            return tsfla;
+            var htmlNode = document.DocumentNode.Descendants("strong").First(node => node.InnerText == nodeName);
+            var parentNode = htmlNode.ParentNode;
+            var property = parentNode.NextSibling.NextSibling.InnerText;
+            return property;
         }
 
         private int ParseTsfla(HtmlDocument document)
@@ -161,11 +161,11 @@ namespace AssessorsAdapter
             return FormatInt(ParseResidenceProperty(document, "FIREPLACES"));
         }
 
-        private decimal ParseTaxes(HtmlDocument taxPage)
+        private double ParseTaxes(HtmlDocument taxPage)
         {
             var taxTd = taxPage.DocumentNode.Descendants("td").Last(node => node.InnerText.Contains("Equals Gross Tax"));
             var grossTaxText = taxTd.NextSibling.NextSibling.InnerText.Trim(' ', '$');
-            return Decimal.Parse(grossTaxText.Replace(",", ""));
+            return Double.Parse(grossTaxText.Replace(",", ""));
         }
 
         #endregion

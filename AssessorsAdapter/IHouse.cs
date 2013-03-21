@@ -16,6 +16,6 @@ namespace AssessorsAdapter
         int BsmtArea { get; set; }
         int YearBuilt { get; set; }
         int Fireplaces { get; set; }
-        decimal GrossTaxes { get; set; }
+        double GrossTaxes { get; set; }
     }
 }

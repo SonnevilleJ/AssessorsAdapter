@@ -12,17 +12,17 @@ namespace AssessorsAdapter
         [ComVisible(false)]
         public IRepository<string, IHouse> Repository { get; private set; }
 
-        public HouseApp()
-            : this(new AssessorsRepository())
+        public void Initialize()
         {
+            Initialize3(new AssessorsRepository());
         }
 
-        public HouseApp(string path)
-            : this(new CachingRepository<string, IHouse>(new AssessorsRepository(), new XmlRepository<IHouse>(path)))
+        public void Initialize2(string path)
         {
+            Initialize3(new CachingRepository<string, IHouse>(new AssessorsRepository(), new XmlRepository<IHouse>(path)));
         }
 
-        public HouseApp(IRepository<string, IHouse> repository)
+        public void Initialize3(IRepository<string, IHouse> repository)
         {
             Repository = repository;
         }

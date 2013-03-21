@@ -40,7 +40,9 @@ namespace AssessorsAdapterTest
 
         private HouseApp GetTestObject()
         {
-            return new HouseApp(_masterRepositoryMock.Object);
+            var testObject = new HouseApp();
+            testObject.Initialize3(_masterRepositoryMock.Object);
+            return testObject;
         }
 
         private IHouse House1
